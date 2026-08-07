@@ -1,4 +1,4 @@
-/* Scripts del bundle, generado el 2026-08-07 17:53
+/* Scripts del bundle, generado el 2026-08-07 18:04
    No edites este archivo: edita Cerveceria.html y regeneralo con
      python minificar.py Cerveceria.html -s cerveceria-minificado.html
      python construir-hibrido.py
@@ -1613,6 +1613,43 @@ for(var r=0;r<raices.length;r++){var raiz=raices[r];
 pacoMarcarZonaNativa();
  document.addEventListener('DOMContentLoaded',pacoMarcarZonaNativa);
  window.addEventListener('load',pacoMarcarZonaNativa);setInterval(pacoMarcarZonaNativa,700);})();
+})();
+;
+(function(){
+(function(){var TRIANGULO=
+'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '+
+'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+
+'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>'+
+'<line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';var CHECK=
+'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" '+
+'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+
+'<polyline points="20 6 9 17 4 12"/></svg>';function cerrar(cont,msg){
+ msg.style.animation='pacoAvisoOut .2s ease-in forwards';
+ var quedan=cont.querySelectorAll('.error-message, .sw-error').length;
+ if(quedan<=1)cont.classList.add('paco-cerrando');setTimeout(function(){if(msg.parentNode)msg.parentNode.removeChild(msg);
+ cont.classList.remove('paco-cerrando');},190);}
+function mejora(cont,msg){if(msg.dataset.pacoAviso)return;
+ msg.dataset.pacoAviso='1';
+ var ico=document.createElement('div');
+ ico.className='paco-aviso-ico';ico.innerHTML=TRIANGULO;msg.insertBefore(ico,msg.firstChild);
+ var txt=document.createElement('div');
+ txt.className='paco-aviso-txt';var n=ico.nextSibling;while(n){var sig=n.nextSibling;
+ if(!(n.nodeType===1&&n.tagName==='I'))txt.appendChild(n);n=sig;}
+msg.appendChild(txt);
+ var btn=document.createElement('button');
+ btn.type='button';
+ btn.className='paco-aviso-ok';
+ btn.innerHTML=CHECK +'<span>Entendido</span>';
+ btn.addEventListener('click',function(){cerrar(cont,msg);});msg.appendChild(btn);}
+function escanea(cont){
+ var list=cont.querySelectorAll('.error-message, .sw-error');for(var i=0;i<list.length;i++)mejora(cont,list[i]);}
+function init(){
+ var cont=document.getElementById('ErrorMessages');if(!cont)return false;escanea(cont);new MutationObserver(function(){escanea(cont);})
+.observe(cont,{childList:true});
+ document.addEventListener('keydown',function(e){
+ if(e.key!=='Escape'&&e.keyCode!==27)return;
+ var abiertos=cont.querySelectorAll('.error-message, .sw-error');if(abiertos.length)cerrar(cont,abiertos[abiertos.length - 1]);});return true;}
+ if(!init())document.addEventListener('DOMContentLoaded',init);})();
 })();
 ;
 (function(){
