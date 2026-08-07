@@ -1,4 +1,4 @@
-/* Scripts del bundle, generado el 2026-08-07 12:07
+/* Scripts del bundle, generado el 2026-08-07 12:45
    No edites este archivo: edita Cerveceria.html y regeneralo con
      python minificar.py Cerveceria.html -s cerveceria-minificado.html
      python construir-hibrido.py
@@ -41,7 +41,7 @@ return u;};
 ;
 (function(){
 (function(){if(window.PACO_EN_FRAME)return;
- var faviconUrl="https://cdn.jsdelivr.net/gh/johancruzpolanco/aquiarius@main/imagenes/favicon.png";function enforceFavicon(){
+ var faviconUrl="https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/favicon.png";function enforceFavicon(){
  var existingIcons=document.querySelectorAll("link[rel*='icon'], link[rel='shortcut icon']");var hasOurIcon=false;existingIcons.forEach(function(icon){
  if(icon.href&&icon.href.indexOf('NMVVBfZB')!==-1){hasOurIcon=true;}else if(icon.parentNode){icon.parentNode.removeChild(icon);}
 });if(!hasOurIcon){
@@ -191,8 +191,8 @@ window.PACO_POPUP={mostrarPopup:true,
 };window.PACO_DESCUENTO={
  textoDetector:'scotiabank,scotia',
  textoTarjeta:'',
- logo:'https://\x66estival\x70residente.\x74uboleta.com.do/AdsUPLImage/scotiabank_logo.png',
- tarjeta:'https://\x66estival\x70residente.\x74uboleta.com.do/AdsUPLImage/scotiabank_tarjeta.png'
+ logo:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/scotiabank_logo.png',
+ tarjeta:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/scotiabank_tarjeta.png'
 };window.PACO_PROMO={mostrar:true,
  titulo:'Descuento exclusivo para tarjetas Scotiabank',
  subtitulo:'Aplica 15% de descuento en tu compra. Solo tarjetas emitidas en República Dominicana.',
@@ -776,7 +776,7 @@ if(!detectar()){
     html.paco-pg-bloqueo.paco-pg-bloqueo,
     html.paco-pg-bloqueo.paco-pg-bloqueo body {
         background-color: #001a10 !important;
-        background-image: url('https://\x66estival\x70residente.\x74uboleta.com.do/AdsUPLImage/malla-original-2171x4096.png') !important;
+        background-image: url('https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/malla-original-2171x4096.png') !important;
         background-repeat: repeat !important;
         background-position: center top !important;
         margin: 0 !important;
@@ -1455,9 +1455,9 @@ function pacoFinPasada(){pacoMarcarResultado();pacoEngancharFactura();pacoEnsanc
 ;
 (function(){
 window.PACO_CHECKOUT_LOGOS=[
-{nombre:'Visa',marca:'visa',src:'https://\x66estival\x70residente.\x74uboleta.com.do/AdsUPLImage/visa.jpg'},
-{nombre:'Mastercard',marca:'mastercard',src:'https://\x66estival\x70residente.\x74uboleta.com.do/AdsUPLImage/mastercard.jpg'},
-{nombre:'American Express',marca:'amex',src:'https://\x66estival\x70residente.\x74uboleta.com.do/AdsUPLImage/amex.jpg'}
+{nombre:'Visa',marca:'visa',src:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/visa.jpg'},
+{nombre:'Mastercard',marca:'mastercard',src:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/mastercard.jpg'},
+{nombre:'American Express',marca:'amex',src:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/amex.jpg'}
 ];
 })();
 ;
