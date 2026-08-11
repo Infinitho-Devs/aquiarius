@@ -660,27 +660,31 @@ html body .paco-header#menu__paco{
 /* Título de arriba (se conserva): centrado, como estaba */
 .pmf-sponsors .pmf-sponsors__title-wrap{ margin-bottom: 46px; }
 
-/* Grid de logos */
+/* Grid de logos — en escritorio TODOS en una sola linea (nowrap) */
 .pmf-sponsors__grid{
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
   align-items: stretch;
-  gap: 24px;
-  max-width: 1040px;
+  gap: 16px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
-/* Card: mismo lenguaje que .pmf-lineup__card (fondo verde translúcido + borde degradado) */
+/* Card: mismo lenguaje que .pmf-lineup__card (fondo verde translúcido + borde degradado).
+   flex:1 1 0 + min-width:0 -> las 7 cards se reparten el ancho y encogen
+   para caber siempre en una sola fila. */
 .pmf-sponsors__card{
   position: relative;
-  flex: 0 0 auto;
-  width: 236px;
+  flex: 1 1 0;
+  width: auto;
+  min-width: 0;
+  max-width: 200px;
   height: 156px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px;
+  padding: 16px 14px;
   border-radius: 16px;
   overflow: hidden;                 /* recorta los logos escalados (one/redrock) */
   text-decoration: none;            /* la card ahora es <a> */
@@ -717,34 +721,50 @@ html body .paco-header#menu__paco{
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(87, 232, 74, 0.25);
 }
 
-/* Logos dentro de la card */
+/* Logos dentro de la card — NORMALIZADOS por relacion de aspecto para que
+   todos pesen visualmente parecido ahora que las cards son mas angostas.
+   Emblemas casi cuadrados -> se limitan por ALTO (~64%). Wordmarks anchos
+   (logo6/logo7) -> se limitan por ANCHO (el alto cae solo). Los PNG con
+   mucho margen transparente (one/redrock) se escalan para que la marca
+   visible llegue al mismo alto (overflow:hidden de la card recorta). */
 .pmf-sponsors__logo{
-  max-width: 82%;
-  max-height: 74%;
+  max-width: 86%;
+  max-height: 64%;
   width: auto;
   height: auto;
   object-fit: contain;
   display: block;
   filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
 }
-/* MUL (logo3.svg): vector, un poco mas grande */
-.pmf-sponsors__logo--mul{ max-width: 84%; max-height: 84%; }
-/* one (logo2) y redrock (logo4): los PNG del repo traen mucho margen
-   transparente; se llenan a la caja y se escala el contenido (el sobrante
-   transparente lo recorta el overflow:hidden de la card). */
-.pmf-sponsors__logo--one{ max-width: 100%; max-height: 100%; transform: scale(1.8); transform-origin: center; }
-.pmf-sponsors__logo--rr{  max-width: 100%; max-height: 100%; transform: scale(1.3); transform-origin: center; }
-/* logo6 y logo7: wordmarks horizontales (aspect ~3.5:1); se dan mas ancho
-   para que pesen igual que los logos mas cuadrados de al lado. */
-.pmf-sponsors__logo--l6{ max-width: 90%; max-height: 60%; }
-.pmf-sponsors__logo--l7{ max-width: 88%; max-height: 58%; }
+/* Corona (LOGO1): horizontal (~1.84:1), manda el ancho; un pelin mas alto. */
+.pmf-sponsors__logo--corona{ max-width: 90%; max-height: 62%; }
+/* logo5 (~1.13:1): emblema casi cuadrado, usa la base (alto manda). */
+/* MUL (logo3.svg, ~1.23:1): emblema; un poco mas grande para que no pese poco. */
+.pmf-sponsors__logo--mul{ max-width: 84%; max-height: 68%; }
+/* The One (logo2): el PNG trae ~66% de margen transparente; se escala para
+   que la marca visible alcance el alto de los demas. */
+.pmf-sponsors__logo--one{ max-width: 100%; max-height: 100%; transform: scale(1.9); transform-origin: center; }
+/* Red Rock (logo4): cuadrado, con menos margen; a tamaño casi natural ya llena. */
+.pmf-sponsors__logo--rr{ max-width: 100%; max-height: 100%; }
+/* logo6 (~3.6:1) y logo7 (~3.1:1): wordmarks -> mandan el ancho, alto libre. */
+.pmf-sponsors__logo--l6{ max-width: 94%; max-height: 44%; }
+.pmf-sponsors__logo--l7{ max-width: 92%; max-height: 44%; }
 
 /* Responsive */
+/* Tablet / pantallas medianas: sigue siendo UNA sola linea, pero con menos
+   padding lateral y menos gap para que las 7 cards respiren. */
+@media (max-width: 1100px){
+  .pmf-sponsors.paco-sponsors{ padding: 64px 5% 74px !important; }
+  .pmf-sponsors__grid{ gap: 12px; }
+  .pmf-sponsors__card{ height: 132px; padding: 16px; }
+}
+
+/* Movil: aqui SI vuelven a envolverse en varias filas */
 @media (max-width: 768px){
   .pmf-sponsors.paco-sponsors{ padding: 48px 20px 56px !important; }
   .pmf-sponsors .pmf-sponsors__title-wrap{ margin-bottom: 30px; }
-  .pmf-sponsors__grid{ gap: 16px; }
-  .pmf-sponsors__card{ width: 150px; height: 120px; padding: 18px; }
+  .pmf-sponsors__grid{ flex-wrap: wrap; gap: 16px; }
+  .pmf-sponsors__card{ flex: 0 0 auto; width: 150px; height: 120px; padding: 18px; }
 }
 
 /* ===== paco-pg-mapa - selects de precio / descuento (cupon) =====
@@ -780,4 +800,289 @@ html.paco-pg-mapa #SelectedSeats select.showare-select:has(option.coupon-price-o
   -webkit-text-fill-color:#DFBA53!important;
   border-color:rgba(223,186,83,.55)!important;
   font-weight:700!important;
+}
+
+
+/* ============================================================
+   AVISO / CHECKOUT.ASP  (html.paco-pg-aviso)
+   ------------------------------------------------------------
+   checkout.asp muestra los avisos de validacion del carrito
+   (p. ej. "La cantidad maxima de boletos... es de 6"). Cae como
+   "pagina normal": el contenido nativo de ShoWare queda envuelto
+   en .paco-native-box (caja blanca). Aqui esa caja se convierte en
+   la tarjeta oscura de marca con filo dorado y el aviso resaltado
+   en una alerta roja con icono. Todo cuelga de html.paco-pg-aviso,
+   asi que ningun selector pisa otras paginas.
+   ============================================================ */
+
+/* Fondo de marca (como login/carrito): quita el hero, deja la malla.
+   Se repite dentro del @media 1280 mas abajo para ganarle a la regla
+   movil de .paco-pg-otra, que dejaba el fondo blanco. */
+html.paco-pg-aviso,
+html.paco-pg-aviso body{
+  background-color:#001a10!important;
+  background-image:url('https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/malla-original-2171x4096.png')!important;
+  background-repeat:repeat!important;
+  background-position:center top!important;
+}
+html.paco-pg-aviso body{position:static!important;top:0!important;margin:0!important}
+
+/* Estorbos fuera: traductor, columna izquierda (calendario/ads),
+   nav de ShoWare, favoritos e imagen suelta. */
+html.paco-pg-aviso #google_translate_element,
+html.paco-pg-aviso .goog-te-gadget,
+html.paco-pg-aviso .goog-te-banner-frame,
+html.paco-pg-aviso .skiptranslate,
+html.paco-pg-aviso .control-wrap,
+html.paco-pg-aviso .ads-control,
+html.paco-pg-aviso #calendarWidget,
+html.paco-pg-aviso .reporting-link,
+html.paco-pg-aviso #epImage2,
+html.paco-pg-aviso #swFavoritelistWrap,
+html.paco-pg-aviso .showare-nav-wrap,
+html.paco-pg-aviso .showare-nav,
+html.paco-pg-aviso #utilityNav,
+html.paco-pg-aviso .utility-nav,
+html.paco-pg-aviso #TopMenu,
+html.paco-pg-aviso #divTopMenu{display:none!important}
+
+/* ── La caja blanca pasa a tarjeta de marca ── */
+html.paco-pg-aviso .paco-native-box{
+  background-color:#01150B!important;
+  background-image:
+    radial-gradient(120% 150% at 100% 0%,rgba(223,186,83,.13) 0%,rgba(223,186,83,0) 60%),
+    linear-gradient(165deg,#06251a 0%,#01150B 66%,#010a06 100%)!important;
+  width:94%!important;
+  max-width:620px!important;
+  margin:60px auto 80px!important;
+  padding:40px 42px 38px!important;
+  border:none!important;
+  border-radius:20px!important;
+  box-shadow:0 20px 50px rgba(0,0,0,.5)!important;
+  min-height:0!important;
+  color:#dfe4e0!important;
+  font-family:"Montserrat",sans-serif!important;
+  position:relative!important;
+  overflow:visible!important;
+  text-align:center!important;
+}
+
+/* Filo dorado en diagonal (la misma tecnica de mascara del resto). */
+html.paco-pg-aviso .paco-native-box::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  padding:1.5px;
+  background:linear-gradient(135deg,rgba(223,186,83,1) 0%,rgba(223,186,83,0) 42%,rgba(223,186,83,0) 58%,rgba(223,186,83,1) 100%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  pointer-events:none;
+  z-index:1;
+}
+
+/* ── Andamiaje interno de ShoWare: transparente y a lo ancho ── */
+html.paco-pg-aviso .paco-native-box #page-wrap,
+html.paco-pg-aviso .paco-native-box .content-wrap,
+html.paco-pg-aviso .paco-native-box .content-inner,
+html.paco-pg-aviso .paco-native-box .center-div,
+html.paco-pg-aviso .paco-native-box .site-width,
+html.paco-pg-aviso .paco-native-box .main-container,
+html.paco-pg-aviso .paco-native-box form[name="checkout"],
+html.paco-pg-aviso .paco-native-box table,
+html.paco-pg-aviso .paco-native-box tbody,
+html.paco-pg-aviso .paco-native-box tr,
+html.paco-pg-aviso .paco-native-box td{
+  position:relative;
+  z-index:2;
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+  border:none!important;
+  box-shadow:none!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:0!important;
+  float:none!important;
+  box-sizing:border-box!important;
+}
+html.paco-pg-aviso .paco-native-box form[name="checkout"]{text-align:center!important}
+html.paco-pg-aviso .paco-native-box table{margin:0 auto!important}
+html.paco-pg-aviso .paco-native-box td{display:block!important;text-align:center!important}
+/* Los <br> sueltos de ShoWare inflan el espaciado: se ocultan los
+   estructurales y se deja el ritmo a los margenes. El <br> util entre
+   las dos frases del aviso vive dentro de .error-message y se conserva. */
+html.paco-pg-aviso .paco-native-box .main-container>br,
+html.paco-pg-aviso .paco-native-box form[name="checkout"]>br,
+html.paco-pg-aviso .paco-native-box td>br{display:none!important}
+
+/* ── Titulo "Aviso" con antetitulo dorado y separador ── */
+html.paco-pg-aviso .paco-native-box .heading-text.sub-head-text{
+  position:relative;
+  z-index:2;
+  display:block!important;
+  margin:0!important;
+  padding:0!important;
+  color:#DFBA53!important;
+  font-family:"OVERTURE","Montserrat",sans-serif!important;
+  font-size:26px!important;
+  font-weight:800!important;
+  letter-spacing:3px!important;
+  line-height:1.15!important;
+  text-transform:uppercase!important;
+  text-shadow:none!important;
+  -webkit-text-stroke:0!important;
+  background:transparent!important;
+}
+html.paco-pg-aviso .paco-native-box .heading-text.sub-head-text::before{
+  content:"Festival Presidente";
+  display:block;
+  margin:0 0 9px;
+  color:rgba(255,255,255,.45);
+  font-family:"Montserrat",sans-serif;
+  font-size:9.5px;
+  font-weight:800;
+  letter-spacing:3px;
+  line-height:1;
+  text-transform:uppercase;
+}
+
+/* El <hr> que ShoWare pone bajo "Aviso" pasa a separador dorado. */
+html.paco-pg-aviso .paco-native-box hr{
+  border:none!important;
+  height:1px!important;
+  width:100%!important;
+  margin:16px 0 24px!important;
+  background:linear-gradient(90deg,rgba(223,186,83,0) 0%,rgba(223,186,83,.55) 50%,rgba(223,186,83,0) 100%)!important;
+}
+
+/* ── El mensaje de error pasa a alerta roja con icono ── */
+html.paco-pg-aviso .paco-native-box .error-message{
+  position:relative;
+  z-index:2;
+  display:block!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  max-width:480px!important;
+  margin:4px auto 0!important;
+  padding:22px 22px 22px 62px!important;
+  text-align:left!important;
+  background-color:rgba(234,31,40,.09)!important;
+  background-image:linear-gradient(180deg,rgba(234,31,40,.06) 0%,rgba(234,31,40,0) 100%)!important;
+  border:1px solid rgba(255,77,77,.35)!important;
+  border-left:3px solid #ff4d4d!important;
+  border-radius:14px!important;
+  color:#e9edea!important;
+  font-family:"Montserrat",sans-serif!important;
+  font-size:13.5px!important;
+  font-weight:500!important;
+  line-height:1.65!important;
+}
+html.paco-pg-aviso .paco-native-box .error-message::before{
+  content:"";
+  position:absolute;
+  left:18px;
+  top:20px;
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  background-color:rgba(255,77,77,.12);
+  border:1.5px solid rgba(255,77,77,.5);
+  background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff6b6b' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z'/%3E%3Cline x1='12' y1='9' x2='12' y2='13'/%3E%3Cline x1='12' y1='17' x2='12.01' y2='17'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:15px 15px;
+}
+/* Los numeros resaltados (6, 5, 2) en dorado. */
+html.paco-pg-aviso .paco-native-box .error-message b{
+  color:#DFBA53!important;
+  font-weight:800!important;
+}
+/* El primer <b> es el titulo del aviso: rojo, en bloque, algo mas grande. */
+html.paco-pg-aviso .paco-native-box .error-message b:first-child{
+  display:block!important;
+  margin:0 0 8px!important;
+  color:#ff9b9b!important;
+  font-family:"OVERTURE","Montserrat",sans-serif!important;
+  font-size:15px!important;
+  font-weight:800!important;
+  letter-spacing:.5px!important;
+  line-height:1.3!important;
+}
+html.paco-pg-aviso .paco-native-box .error-message b:first-child br{display:none!important}
+
+/* ── Boton "Regresar al Carrito": pildora dorada de siempre ── */
+html.paco-pg-aviso .paco-native-box form[name="checkout"] input.button,
+html.paco-pg-aviso .paco-native-box input.button{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-height:50px!important;
+  margin:26px 0 0!important;
+  padding:14px 36px!important;
+  border:none!important;
+  border-radius:999px!important;
+  background:#DFBA53!important;
+  background-image:linear-gradient(180deg,#ecc86a 0%,#DFBA53 55%,#c79f3c 100%)!important;
+  color:#01150B!important;
+  font-family:"OVERTURE","Montserrat",sans-serif!important;
+  font-size:13px!important;
+  font-weight:800!important;
+  letter-spacing:1.5px!important;
+  line-height:1.2!important;
+  text-transform:uppercase!important;
+  text-decoration:none!important;
+  text-shadow:none!important;
+  box-shadow:0 8px 20px rgba(223,186,83,.28)!important;
+  cursor:pointer!important;
+  -webkit-appearance:none;
+  appearance:none;
+  transition:transform .15s ease,box-shadow .15s ease!important;
+}
+html.paco-pg-aviso .paco-native-box input.button:hover{
+  transform:translateY(-2px)!important;
+  box-shadow:0 12px 28px rgba(223,186,83,.4)!important;
+}
+
+/* Deja fuera cualquier input oculto (activity=continue). */
+html.paco-pg-aviso .paco-native-box input[type="hidden"]{display:none!important}
+
+/* ── Movil: reafirma el fondo (gana a .paco-pg-otra) y separa del header ── */
+@media (max-width:1280px){
+  html.paco-pg-aviso,
+  html.paco-pg-aviso body{
+    background-color:#001a10!important;
+    background-image:url('https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/malla-original-2171x4096.png')!important;
+    background-repeat:repeat!important;
+    background-position:center top!important;
+  }
+  html.paco-pg-aviso #wrapper,
+  html.paco-pg-aviso .site-wrapper,
+  html.paco-pg-aviso #content,
+  html.paco-pg-aviso .main-content,
+  html.paco-pg-aviso #main,
+  html.paco-pg-aviso .site-content,
+  html.paco-pg-aviso .content-wrap,
+  html.paco-pg-aviso .content-inner,
+  html.paco-pg-aviso .main-container,
+  html.paco-pg-aviso #EventInformationWrap{
+    padding-top:0!important;
+    margin-top:0!important;
+  }
+  html.paco-pg-aviso .paco-native-box{margin-top:100px!important}
+}
+@media (max-width:760px){
+  html.paco-pg-aviso .paco-native-box{
+    width:92%!important;
+    padding:30px 20px 28px!important;
+    margin:100px auto 56px!important;
+  }
+  html.paco-pg-aviso .paco-native-box .heading-text.sub-head-text{font-size:22px!important}
+  html.paco-pg-aviso .paco-native-box .error-message{padding:18px 16px 18px 54px!important}
+  html.paco-pg-aviso .paco-native-box form[name="checkout"] input.button,
+  html.paco-pg-aviso .paco-native-box input.button{width:100%!important}
 }
