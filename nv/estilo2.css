@@ -293,7 +293,10 @@ html body .paco-header#menu__paco{
 .pmf-lineup, .pmf-lineup *, .pmf-lineup *::before, .pmf-lineup *::after { box-sizing: border-box; }
 
 .pmf-lineup {
-  padding: 60px 10%;
+  /* El track sangra hasta el borde derecho, asi que un padding porcentual
+     grande dejaba demasiado aire a la izquierda en pantallas anchas. Se topa
+     el margen lateral para que el bloque quede mas centrado. */
+  padding: 60px clamp(20px, 6vw, 96px);
   overflow-x: hidden;
   position: relative;
   background-color: #001a10;
@@ -306,7 +309,7 @@ html body .paco-header#menu__paco{
 }
 
 .pmf-lineup__container {
-  max-width: 1140px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -474,7 +477,9 @@ html body .paco-header#menu__paco{
 
 .pmf-lineup__card-photo {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  /* Las fotos son verticales (800x1067 = 3/4). Con 4/3 se recortaba casi la
+     mitad del alto; con 4/5 el recorte es minimo y el artista se ve completo. */
+  aspect-ratio: 4 / 5;
   height: auto;
   border-radius: 10px;
   overflow: hidden;
