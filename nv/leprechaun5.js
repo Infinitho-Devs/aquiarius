@@ -2642,3 +2642,64 @@ pintar();
  document.addEventListener('DOMContentLoaded',pintar);
  window.addEventListener('load',function(){pintar();setTimeout(pintar,300);setTimeout(pintar,900);setTimeout(pintar,2000);});setInterval(pintar,700);})();
 })();
+
+;
+(function(){
+window.PACO_PAGO_AVISO=window.PACO_PAGO_AVISO||{activo:true,
+ frases:['tarjetas participantes'],
+ titulo:'Tarjetas participantes',
+ textoBoton:'Entendido'
+};
+})();
+;
+(function(){
+(function(){if(window.PACO_EN_FRAME)return;
+ if(window.location.href.toLowerCase().indexOf('checkout_streamlined')===-1)return;
+ var cfg=window.PACO_PAGO_AVISO||{};if(cfg.activo===false)return;
+ var FRASES=(cfg.frases&&cfg.frases.length)?cfg.frases:['tarjetas participantes'];
+ var TITULO=cfg.titulo||'Aviso';
+ var BOTON=cfg.textoBoton||'Entendido';var abierto=false;var descartado='';
+ var ICO='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>';
+ var CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
+ function escHtml(t){return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+ function tieneFrase(t){t=(t||'').toLowerCase();for(var i=0;i<FRASES.length;i++){if(t.indexOf(String(FRASES[i]).toLowerCase())!==-1)return true;}return false;}
+ function visible(el){if(!el)return false;if(el.offsetParent!==null)return true;var r=el.getClientRects&&el.getClientRects();return!!(r&&r.length);}
+ function buscar(){var nodos;try{nodos=document.querySelectorAll('.error-message,.sw-error,.floating-error,[class*="error-"],[id*="rror"]');}catch(e){return null;}
+ var mejor=null,mejorLen=Infinity;for(var i=0;i<nodos.length;i++){var el=nodos[i];
+ if(el.tagName==='SCRIPT'||el.tagName==='STYLE')continue;
+ if(el.id==='paco-pago-aviso-overlay')continue;
+ if(el.closest&&el.closest('#paco-pago-aviso-overlay'))continue;
+ var t=(el.innerText||el.textContent||'');if(!t.trim()||!tieneFrase(t))continue;if(!visible(el))continue;
+ if(t.length<mejorLen){mejor=el;mejorLen=t.length;}}
+ return mejor;}
+ function cerrar(overlay,handler){
+ overlay.classList.remove('paco-abierto');abierto=false;
+ if(handler)document.removeEventListener('keydown',handler);
+ setTimeout(function(){if(overlay.parentNode)overlay.parentNode.removeChild(overlay);},300);}
+ function abrir(texto){if(document.getElementById('paco-pago-aviso-overlay'))return;abierto=true;
+ var overlay=document.createElement('div');
+ overlay.id='paco-pago-aviso-overlay';
+ overlay.innerHTML='<div class="paco-pago-aviso-card" role="alertdialog" aria-modal="true" aria-labelledby="paco-pago-aviso-tit">'+
+'<button class="paco-pago-aviso-close" type="button" aria-label="Cerrar">&times;</button>'+
+'<div class="paco-pago-aviso-ico">'+ ICO +'</div>'+
+'<h3 id="paco-pago-aviso-tit">'+ escHtml(TITULO)+'</h3>'+
+'<p>'+(texto?escHtml(texto):'')+'</p>'+
+'<button class="paco-pago-aviso-btn" type="button">'+ CHECK +'<span>'+ escHtml(BOTON)+'</span></button>'+
+'</div>';document.body.appendChild(overlay);function fin(){descartado=texto;cerrar(overlay,esc);}
+ function esc(e){if(e.key==='Escape'||e.keyCode===27)fin();}
+ overlay.querySelector('.paco-pago-aviso-close').addEventListener('click',fin);
+ overlay.querySelector('.paco-pago-aviso-btn').addEventListener('click',fin);
+ overlay.addEventListener('click',function(e){if(e.target===overlay)fin();});
+ document.addEventListener('keydown',esc);
+ requestAnimationFrame(function(){overlay.classList.add('paco-abierto');});}
+ function pasar(){var el=buscar();if(!el)return;
+ var texto=(el.innerText||el.textContent||'').trim();
+ el.style.setProperty('display','none','important');
+ el.setAttribute('data-paco-pago-aviso','1');
+ if(abierto)return;if(descartado===texto)return;abrir(texto);}
+ pasar();
+ document.addEventListener('DOMContentLoaded',pasar);
+ window.addEventListener('load',pasar);
+ if(window.MutationObserver&&document.body){new MutationObserver(function(){pasar();}).observe(document.body,{childList:true,subtree:true});}
+ setInterval(pasar,700);})();
+})();
