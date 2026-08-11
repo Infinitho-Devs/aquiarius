@@ -382,7 +382,7 @@ function pacoAbrirAyuda(){try{
 '<h3 id="paco-help-title">¿Necesitas ayuda?</h3>'+
 '<p class="paco-help-sub">Estamos para ayudarte con tu compra. Contáctanos por cualquiera de estas vías:</p>'+
 '<ul class="paco-help-list">'+
-'<li><span class="paco-help-ico">'+ telIcon +'</span><span class="paco-help-txt"><strong>Teléfono</strong><a href="tel:+18097322928">(809) 732-9298 Ext. 504 o 505</a></span></li>'+
+'<li><span class="paco-help-ico">'+ telIcon +'</span><span class="paco-help-txt"><strong>Teléfono</strong><a href="tel:+18297330404" style="display:block">829-733-0404</a><a href="tel:+18097322928" style="display:block">(809) 732-9298 Ext. 504 o 505</a></span></li>'+
 '<li><span class="paco-help-ico">'+ mailIcon +'</span><span class="paco-help-txt"><strong>Correo</strong><a href="mailto:servicio@\x74uboleta.com.do">servicio@\x74uboleta.com.do</a></span></li>'+
 '</ul>'+
 '<a class="paco-help-wa" href="https://wa.me/18295208207" target="_blank" rel="noopener">'+ waIcon +'Contáctanos por WhatsApp</a>'+
