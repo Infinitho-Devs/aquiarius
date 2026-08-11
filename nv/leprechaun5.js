@@ -198,8 +198,10 @@ window.PACO_POPUP={mostrarPopup:true,
  textoBoton:'Entendido',soloUnaVezPorSesion:false,ocultarSiYaAplicado:true,forzar:false
 };window.PACO_DESCUENTO={
  textoDetector:'scotiabank,scotia',
- textoTarjeta:'',
+ textoTarjeta:'Descuento Scotiabank + Visa',
  logo:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/scotiabank_logo.png',
+ logoVisa:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/PATROCINADORES/logo7.png',
+ logoVisaClaro:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/visa.jpg',
  tarjeta:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/scotiabank_tarjeta.png'
 };window.PACO_PROMO={mostrar:true,
  titulo:'Descuento exclusivo para tarjetas Scotiabank',
@@ -332,12 +334,17 @@ window.pacoPopupYaMostrado=true;
  pasosHTML +='<li><i>'+(p + 1)+'</i><span>'+ cfg.pasos[p]+'</span></li>';}
  pasosHTML +='</ul>';}
  var logo=(window.PACO_DESCUENTO&&window.PACO_DESCUENTO.logo)||'';
+ var logoVisaPop=(window.PACO_DESCUENTO&&(window.PACO_DESCUENTO.logoVisaClaro||window.PACO_DESCUENTO.logoVisa))||'';
+ var popupLogos=(logo||logoVisaPop)?('<div class="paco-popup-logos">'+
+(logo?'<span class="paco-popup-logo paco-popup-logo--scotia"><img src="'+ logo +'" alt="Scotiabank"></span>':'')+
+(logoVisaPop?'<span class="paco-popup-logo paco-popup-logo--visa"><img src="'+ logoVisaPop +'" alt="Visa"></span>':'')+
+'</div>'):'';
  var overlay=document.createElement('div');
  overlay.id='paco-popup-overlay';
  overlay.innerHTML=''+
 '<div class="paco-popup-card" role="dialog" aria-modal="true">'+
 '<button class="paco-popup-close" aria-label="Cerrar" type="button">&times;</button>'+
-(logo?'<div class="paco-popup-logo"><img src="'+ logo +'" alt="Scotiabank"></div>':'')+
+ popupLogos +
 (cfg.porcentaje?'<span class="paco-popup-off" style="background: #DFBA53 !important; color: #06251a !important;">'+ cfg.porcentaje +'</span>':'')+
 '<h3>'+(cfg.titulo||'')+'</h3>'+
 '<p>'+(cfg.texto||'')+'</p>'+
@@ -448,9 +455,15 @@ function renderCustomCart(){try{window.pacoNumRender=(window.pacoNumRender||0)+ 
  var nt=(nodos[k].innerText||'').trim();if(!nt||nodos[k].children.length!==0)continue;for(var d=0;d<dets.length;d++){if(nt.toLowerCase().indexOf(dets[d])!==-1){nativeTxt=nt;break;}
 }
 }
- var cardTxt=cfgD.textoTarjeta||nativeTxt||'Descuento Scotiabank aplicado';
- discountHTML='<div class="paco-banre-tag" style="background-color: rgba(234,31,40,0.18) !important; border-color: rgba(234,31,40,0.6) !important;">'+
+ var cardTxt=cfgD.textoTarjeta||nativeTxt||'Descuento Scotiabank + Visa';
+ var logoVisaTag=cfgD.logoVisa||'';
+ var logosTag='';if(cfgD.logo||logoVisaTag){
+ logosTag='<span class="paco-banre-tag-logos">'+
 (cfgD.logo?'<span class="paco-banre-tag-logo"><img src="'+ cfgD.logo +'" alt="Scotiabank"></span>':'')+
+(logoVisaTag?'<span class="paco-banre-tag-logo paco-banre-tag-logo--visa"><img src="'+ logoVisaTag +'" alt="Visa"></span>':'')+
+'</span>';}
+ discountHTML='<div class="paco-banre-tag" style="background-color: rgba(234,31,40,0.18) !important; border-color: rgba(234,31,40,0.6) !important;">'+
+ logosTag +
 '<p class="paco-banre-tag-txt" style="color: #ffffff !important;">'+ pacoEsc(cardTxt)+'</p>'+
 '<span class="paco-banre-tag-check" style="color: #4ade80 !important;">&#10003; APLICADO</span>'+
 '</div>';}
@@ -479,7 +492,13 @@ function renderCustomCart(){try{window.pacoNumRender=(window.pacoNumRender||0)+ 
  var soloSiDetecta=(cfgP.mostrar==='auto');if(cfgP.mostrar&&(cfgP.forzar||infoD.campo)&&
 (!soloSiDetecta||cfgP.forzar||infoD.disponible)){
  var logoBrsv=(window.PACO_DESCUENTO&&window.PACO_DESCUENTO.logo)||'';
+ var logoVisaBrsv=(window.PACO_DESCUENTO&&window.PACO_DESCUENTO.logoVisa)||'';
  var tarjetaBrsv=(window.PACO_DESCUENTO&&window.PACO_DESCUENTO.tarjeta)||'';
+ var marksBrsv='';if(logoBrsv||logoVisaBrsv){
+ marksBrsv='<div class="paco-brsv-marks">'+
+(logoBrsv?'<span class="paco-brsv-mark paco-brsv-mark--scotia"><img src="'+ logoBrsv +'" alt="Scotiabank"></span>':'')+
+(logoVisaBrsv?'<span class="paco-brsv-mark paco-brsv-mark--visa"><img src="'+ logoVisaBrsv +'" alt="Visa"></span>':'')+
+'</div>';}
  var codesHTML='';if(infoD.codigos.length){
  codesHTML='<div class="paco-brsv-codes">';for(var c=0;c<infoD.codigos.length;c++){
  codesHTML +='<span class="paco-brsv-code"><b>&#10003;</b> '+ pacoEsc(infoD.codigos[c])+
@@ -494,7 +513,7 @@ function renderCustomCart(){try{window.pacoNumRender=(window.pacoNumRender||0)+ 
  promoHTML='<div class="paco-brsv'+(infoD.aplicado?' paco-aplicado':'')+'">'+
 '<div class="paco-brsv-inner" style="background-color: #01150b !important;">'+
 '<div class="paco-brsv-head">'+
-(logoBrsv?'<div class="paco-brsv-mark"><img src="'+ logoBrsv +'" alt="Scotiabank"></div>':'')+
+ marksBrsv +
 '<div class="paco-brsv-headtxt">'+
 '<span class="paco-brsv-eyebrow">'+(infoD.aplicado?'&#10003; DESCUENTO APLICADO':(cfgP.etiqueta||'DESCUENTO BANCARIO'))+'</span>'+
 '<h3 style="color: #ffffff !important;">'+(cfgP.titulo||'')+'</h3>'+
