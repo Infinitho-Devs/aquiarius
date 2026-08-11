@@ -1294,6 +1294,499 @@ if(!poner()){
 })();
 })();
 ;
+/* ====== checkout_ticketinfo.asp — "Informacion Adicional" ======
+   Detecta la pagina de datos de boleto y le aplica el tema del
+   festival (verde/dorado) igual que el resto del sitio. La pagina
+   ya es "standard-page" (se envuelve en .paco-native-box); aqui solo
+   la marcamos como paco-pg-ticketinfo y le inyectamos su CSS. */
+(function(){
+(function(){if(window.PACO_EN_FRAME)return;function detectar(){
+ var esUrl=(window.location.href.toLowerCase().indexOf('checkout_ticketinfo.asp')!==-1);
+ var esBody=!!(document.body&&document.body.classList&&document.body.classList.contains('checkout_ticketinfo'));
+ if(esUrl||esBody){document.documentElement.classList.add('paco-pg-ticketinfo');return true;}
+ return false;}
+if(!detectar()){
+ document.addEventListener('DOMContentLoaded',detectar);
+ window.addEventListener('load',detectar);var n=0,t=setInterval(function(){if(detectar()||++n>20)clearInterval(t);},300);}
+})();
+})();
+;
+(function(){
+(function(){
+ var css=`
+    /* Fondo malla + verde. Se duplica la clase para ganarle en
+       especificidad a la regla de .paco-pg-otra (que pinta blanco). */
+    html.paco-pg-ticketinfo.paco-pg-ticketinfo,
+    html.paco-pg-ticketinfo.paco-pg-ticketinfo body {
+        background-color: #001a10 !important;
+        background-image: url('https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/malla-original-2171x4096.png') !important;
+        background-repeat: repeat !important;
+        background-position: center top !important;
+        margin: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    /* Ruido nativo fuera: buscador de fechas, info, anuncios, traductor,
+       navegacion de ShoWare, corazon de favoritos, etc. */
+    html.paco-pg-ticketinfo .control-wrap,
+    html.paco-pg-ticketinfo .ads-control,
+    html.paco-pg-ticketinfo #calendarWidget,
+    html.paco-pg-ticketinfo #infoWidget,
+    html.paco-pg-ticketinfo .reporting-link,
+    html.paco-pg-ticketinfo #swFavoritelistWrap,
+    html.paco-pg-ticketinfo #epImage2,
+    html.paco-pg-ticketinfo .showare-nav-wrap,
+    html.paco-pg-ticketinfo .showare-nav,
+    html.paco-pg-ticketinfo #utilityNav,
+    html.paco-pg-ticketinfo .utility-nav,
+    html.paco-pg-ticketinfo #TopMenu,
+    html.paco-pg-ticketinfo #divTopMenu,
+    html.paco-pg-ticketinfo #google_translate_element,
+    html.paco-pg-ticketinfo .goog-te-gadget,
+    html.paco-pg-ticketinfo .goog-te-banner-frame,
+    html.paco-pg-ticketinfo .skiptranslate {
+        display: none !important;
+    }
+
+    /* Contenedores nativos: transparentes y a todo el ancho de la tarjeta. */
+    html.paco-pg-ticketinfo #page-wrap,
+    html.paco-pg-ticketinfo .head-wrap,
+    html.paco-pg-ticketinfo .foot-wrap,
+    html.paco-pg-ticketinfo #EventInformationWrap,
+    html.paco-pg-ticketinfo .content-wrap,
+    html.paco-pg-ticketinfo .content-inner,
+    html.paco-pg-ticketinfo .center-div,
+    html.paco-pg-ticketinfo .site-width,
+    html.paco-pg-ticketinfo .main-container {
+        background: transparent !important;
+        background-color: transparent !important;
+        background-image: none !important;
+        border: none !important;
+        border-top: none !important;
+        box-shadow: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        float: none !important;
+    }
+
+    html.paco-pg-ticketinfo .content-inner::before,
+    html.paco-pg-ticketinfo .content-inner::after,
+    html.paco-pg-ticketinfo .main-container::before,
+    html.paco-pg-ticketinfo .main-container::after {
+        content: none !important;
+        border: none !important;
+        background: none !important;
+    }
+
+    /* Tarjeta principal (recuadro dorado sobre verde). */
+    html.paco-pg-ticketinfo .paco-native-box {
+        background-color: #01150B !important;
+        background-image:
+            radial-gradient(120% 150% at 100% 0%, rgba(223, 186, 83, 0.13) 0%, rgba(223, 186, 83, 0) 60%),
+            linear-gradient(165deg, #06251a 0%, #01150B 66%, #010a06 100%) !important;
+        width: 94% !important;
+        max-width: 680px !important;
+        margin: 46px auto 80px !important;
+        padding: 40px 40px 34px !important;
+        border: none !important;
+        border-radius: 20px !important;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5) !important;
+        min-height: 0 !important;
+        color: #dfe4e0 !important;
+        font-family: "Montserrat", sans-serif !important;
+        position: relative !important;
+        overflow: visible !important;
+    }
+
+    /* Filo dorado del recuadro. */
+    html.paco-pg-ticketinfo .paco-native-box::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 1.5px;
+        background: linear-gradient(135deg, rgba(223, 186, 83, 1) 0%, rgba(223, 186, 83, 0) 42%, rgba(223, 186, 83, 0) 58%, rgba(223, 186, 83, 1) 100%);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    html.paco-pg-ticketinfo .main-container,
+    html.paco-pg-ticketinfo .heading-text.sub-head-text,
+    html.paco-pg-ticketinfo .theme-container-wrap {
+        position: relative !important;
+        z-index: 2 !important;
+    }
+
+    /* Encabezado "Informacion Adicional". */
+    html.paco-pg-ticketinfo .heading-text.sub-head-text {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        color: #DFBA53 !important;
+        font-family: "OVERTURE", "Montserrat", sans-serif !important;
+        font-size: 23px !important;
+        font-weight: 800 !important;
+        letter-spacing: 2.2px !important;
+        line-height: 1.15 !important;
+        text-transform: uppercase !important;
+        text-shadow: none !important;
+        -webkit-text-stroke: 0 !important;
+        background: transparent !important;
+        float: none !important;
+    }
+
+    html.paco-pg-ticketinfo .heading-text.sub-head-text::before {
+        content: "Festival Presidente";
+        display: block;
+        margin: 0 0 9px;
+        color: rgba(255, 255, 255, 0.45);
+        font-family: "Montserrat", sans-serif;
+        font-size: 9.5px;
+        font-weight: 800;
+        letter-spacing: 3px;
+        line-height: 1;
+        text-transform: uppercase;
+    }
+
+    html.paco-pg-ticketinfo .heading-text.sub-head-text::after {
+        content: "";
+        display: block;
+        height: 1px;
+        width: 100%;
+        margin: 16px 0 4px;
+        background: linear-gradient(90deg, rgba(223, 186, 83, 0.55) 0%, rgba(223, 186, 83, 0) 100%);
+    }
+
+    /* El <hr> nativo bajo el encabezado sobra (ya hay linea dorada). */
+    html.paco-pg-ticketinfo .main-container hr {
+        display: none !important;
+    }
+
+    /* Contenedor del formulario (quita el width:50% en linea). */
+    html.paco-pg-ticketinfo .theme-container-wrap {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 18px 0 0 !important;
+        padding: 0 !important;
+    }
+
+    html.paco-pg-ticketinfo .theme-container-wrap form {
+        margin: 0 !important;
+    }
+
+    html.paco-pg-ticketinfo .theme-description {
+        display: none !important;
+    }
+
+    /* Nota "* indica un campo requerido" (venia en rojo en linea). */
+    html.paco-pg-ticketinfo form > span[style*="color:red"] {
+        display: block !important;
+        margin: 0 0 18px !important;
+        color: #a9b3ad !important;
+        font-family: "Montserrat", sans-serif !important;
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.3px !important;
+    }
+
+    /* Cabecera del evento. */
+    html.paco-pg-ticketinfo .ticket-info-performance {
+        box-sizing: border-box !important;
+        margin: 0 0 20px !important;
+        padding: 15px 18px !important;
+        border: 1px solid rgba(223, 186, 83, 0.28) !important;
+        border-radius: 14px !important;
+        background: rgba(0, 0, 0, 0.28) !important;
+        color: #dfe4e0 !important;
+        font-family: "Montserrat", sans-serif !important;
+        font-size: 12.5px !important;
+        line-height: 1.5 !important;
+        letter-spacing: 0.3px !important;
+    }
+
+    html.paco-pg-ticketinfo .ticket-info-performance h5 {
+        margin: 0 0 3px !important;
+        color: #ffffff !important;
+        font-family: "OVERTURE", "Montserrat", sans-serif !important;
+        font-size: 16px !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.6px !important;
+        text-transform: uppercase !important;
+        text-shadow: none !important;
+    }
+
+    /* Cabecera por asiento (Seccion / Tipo de boleto). */
+    html.paco-pg-ticketinfo .theme-ticket-info-notes {
+        display: block !important;
+        box-sizing: border-box !important;
+        margin: 22px 0 0 !important;
+        padding: 12px 16px !important;
+        border: 1px solid rgba(223, 186, 83, 0.22) !important;
+        border-bottom: none !important;
+        border-radius: 13px 13px 0 0 !important;
+        background: linear-gradient(180deg, rgba(223, 186, 83, 0.10) 0%, rgba(223, 186, 83, 0.03) 100%) !important;
+    }
+
+    html.paco-pg-ticketinfo .theme-ticket-info-section {
+        display: block !important;
+        color: #DFBA53 !important;
+        font-family: "OVERTURE", "Montserrat", sans-serif !important;
+        font-size: 12.5px !important;
+        font-weight: 800 !important;
+        letter-spacing: 1px !important;
+        text-transform: uppercase !important;
+        line-height: 1.4 !important;
+    }
+
+    html.paco-pg-ticketinfo .theme-ticket-info-type {
+        display: block !important;
+        margin-top: 3px !important;
+        color: #a9b3ad !important;
+        font-family: "Montserrat", sans-serif !important;
+        font-size: 11.5px !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.3px !important;
+    }
+
+    /* Panel con los campos del asiento (va pegado a la cabecera de arriba). */
+    html.paco-pg-ticketinfo .theme-custom-field-set {
+        box-sizing: border-box !important;
+        margin: 0 0 4px !important;
+        padding: 18px 18px 4px !important;
+        border: 1px solid rgba(255, 255, 255, 0.10) !important;
+        border-top: 1px solid rgba(223, 186, 83, 0.22) !important;
+        border-radius: 0 0 13px 13px !important;
+        background: rgba(0, 0, 0, 0.24) !important;
+    }
+
+    /* Etiquetas de cada campo. */
+    html.paco-pg-ticketinfo .theme-label.custom-field-label,
+    html.paco-pg-ticketinfo .theme-custom-field-set label.theme-label {
+        display: block !important;
+        margin: 0 0 7px !important;
+        padding: 0 !important;
+        color: #DFBA53 !important;
+        font-family: "Montserrat", sans-serif !important;
+        font-size: 10.5px !important;
+        font-weight: 800 !important;
+        letter-spacing: 1.1px !important;
+        line-height: 1.5 !important;
+        text-transform: uppercase !important;
+        text-shadow: none !important;
+    }
+
+    /* Asterisco de requerido: se pinta en la etiqueta y se oculta el <em>
+       nativo (quedaba suelto en su propia linea bajo cada campo). */
+    html.paco-pg-ticketinfo .theme-label.custom-field-label::after {
+        content: " *";
+        color: #DFBA53 !important;
+        font-weight: 800 !important;
+    }
+
+    html.paco-pg-ticketinfo .theme-custom-field-set em {
+        display: none !important;
+    }
+
+    /* Inputs y selects. */
+    html.paco-pg-ticketinfo .theme-select,
+    html.paco-pg-ticketinfo input.showare-select,
+    html.paco-pg-ticketinfo select.showare-select {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 48px !important;
+        padding: 0 15px !important;
+        margin: 0 0 15px !important;
+        border-radius: 11px !important;
+        border: 1.5px solid rgba(255, 255, 255, 0.16) !important;
+        background-color: rgba(0, 0, 0, 0.42) !important;
+        background-image: none !important;
+        color: #ffffff !important;
+        font-family: "Montserrat", sans-serif !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        line-height: 48px !important;
+        text-align: left !important;
+        box-shadow: none !important;
+        outline: none !important;
+        box-sizing: border-box !important;
+        -webkit-appearance: none;
+        appearance: none;
+        transition: border-color .25s ease, box-shadow .25s ease, background-color .25s ease !important;
+    }
+
+    html.paco-pg-ticketinfo select.theme-select,
+    html.paco-pg-ticketinfo select.showare-select {
+        padding: 0 38px 0 15px !important;
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23DFBA53' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") !important;
+        background-repeat: no-repeat !important;
+        background-position: right 14px center !important;
+        background-size: 16px 16px !important;
+        cursor: pointer !important;
+    }
+
+    html.paco-pg-ticketinfo .theme-select:focus,
+    html.paco-pg-ticketinfo input.showare-select:focus,
+    html.paco-pg-ticketinfo select.showare-select:focus {
+        border-color: #DFBA53 !important;
+        background-color: rgba(0, 0, 0, 0.6) !important;
+        box-shadow: 0 0 0 3.5px rgba(223, 186, 83, 0.16) !important;
+    }
+
+    html.paco-pg-ticketinfo .theme-select::placeholder {
+        color: rgba(255, 255, 255, 0.3) !important;
+        font-weight: 500 !important;
+    }
+
+    /* Las opciones del desplegable se ven en fondo del sistema: texto oscuro. */
+    html.paco-pg-ticketinfo select.theme-select option,
+    html.paco-pg-ticketinfo select.showare-select option {
+        color: #01150B !important;
+        background: #ffffff !important;
+    }
+
+    html.paco-pg-ticketinfo input.theme-select:-webkit-autofill,
+    html.paco-pg-ticketinfo input.theme-select:-webkit-autofill:hover,
+    html.paco-pg-ticketinfo input.theme-select:-webkit-autofill:focus {
+        -webkit-text-fill-color: #ffffff !important;
+        caret-color: #ffffff !important;
+        box-shadow: 0 0 0 1000px #0a2016 inset !important;
+        transition: background-color 9999s ease-in-out 0s;
+    }
+
+    /* Mensajes de validacion (los muestra el JS nativo al enviar). */
+    html.paco-pg-ticketinfo .required-text,
+    html.paco-pg-ticketinfo .invalid-text,
+    html.paco-pg-ticketinfo .validation {
+        display: block !important;
+        margin: -8px 0 12px !important;
+        color: #ff9b9b !important;
+        font-family: "Montserrat", sans-serif !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+    }
+
+    /* Botonera (regresar / continuar). */
+    html.paco-pg-ticketinfo form > div[style*="text-align:center"],
+    html.paco-pg-ticketinfo form > div[align="center"] {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 12px !important;
+        width: 100% !important;
+        margin: 26px 0 0 !important;
+        padding: 22px 0 0 !important;
+        border-top: 1px solid rgba(223, 186, 83, 0.18) !important;
+        box-sizing: border-box !important;
+    }
+
+    html.paco-pg-ticketinfo .theme-container-wrap input.button,
+    html.paco-pg-ticketinfo .theme-container-wrap input[type="button"],
+    html.paco-pg-ticketinfo .theme-container-wrap input[type="submit"] {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-height: 52px !important;
+        width: auto !important;
+        min-width: 180px !important;
+        max-width: 100% !important;
+        padding: 15px 30px !important;
+        margin: 0 !important;
+        border: 1.5px solid transparent !important;
+        border-radius: 12px !important;
+        font-family: "OVERTURE", "Montserrat", sans-serif !important;
+        font-size: 12.5px !important;
+        font-weight: 800 !important;
+        letter-spacing: 1.4px !important;
+        line-height: 1.2 !important;
+        text-transform: uppercase !important;
+        text-align: center !important;
+        text-decoration: none !important;
+        text-shadow: none !important;
+        white-space: normal !important;
+        cursor: pointer !important;
+        box-sizing: border-box !important;
+        box-shadow: none !important;
+        outline: none !important;
+        transition: transform .2s ease, box-shadow .2s ease, background .2s ease, color .2s ease, border-color .2s ease !important;
+    }
+
+    html.paco-pg-ticketinfo .theme-container-wrap input.sw-button-primary,
+    html.paco-pg-ticketinfo .theme-container-wrap input#submit {
+        background-color: #DFBA53 !important;
+        background-image: linear-gradient(180deg, #f0cf72 0%, #DFBA53 100%) !important;
+        border-color: transparent !important;
+        color: #06251a !important;
+        min-width: 200px !important;
+        box-shadow: 0 8px 22px rgba(223, 186, 83, 0.28) !important;
+    }
+
+    html.paco-pg-ticketinfo .theme-container-wrap input.sw-button-primary:hover,
+    html.paco-pg-ticketinfo .theme-container-wrap input#submit:hover {
+        background-image: linear-gradient(180deg, #f7dd8f 0%, #f1cd68 100%) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 10px 26px rgba(223, 186, 83, 0.4) !important;
+    }
+
+    html.paco-pg-ticketinfo .theme-container-wrap input.sw-button-muted {
+        background-color: transparent !important;
+        background-image: none !important;
+        border-color: rgba(223, 186, 83, 0.5) !important;
+        color: #DFBA53 !important;
+    }
+
+    html.paco-pg-ticketinfo .theme-container-wrap input.sw-button-muted:hover {
+        background-color: #DFBA53 !important;
+        border-color: #DFBA53 !important;
+        color: #01150B !important;
+        transform: translateY(-2px) !important;
+    }
+
+    html.paco-pg-ticketinfo .theme-container-wrap input.button:active {
+        transform: translateY(0) !important;
+    }
+
+    @media (max-width: 760px) {
+        html.paco-pg-ticketinfo .paco-native-box {
+            padding: 26px 18px 24px !important;
+            margin: 26px auto 56px !important;
+            border-radius: 16px !important;
+        }
+        html.paco-pg-ticketinfo .heading-text.sub-head-text {
+            font-size: 20px !important;
+        }
+        html.paco-pg-ticketinfo form > div[style*="text-align:center"] {
+            flex-direction: column-reverse !important;
+        }
+        html.paco-pg-ticketinfo .theme-container-wrap input.button {
+            width: 100% !important;
+            min-width: 0 !important;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        html.paco-pg-ticketinfo .theme-select,
+        html.paco-pg-ticketinfo .theme-container-wrap input.button {
+            transition: none !important;
+        }
+    }
+`;
+function poner(){var destino=document.head||document.documentElement;if(!destino)return false;
+ if(document.getElementById('paco-ticketinfo-css'))return true;
+ var st=document.createElement('style');
+ st.id='paco-ticketinfo-css';st.textContent=css;destino.appendChild(st);return true;}
+if(!poner()){
+ document.addEventListener('DOMContentLoaded',poner);}
+})();
+})();
+;
 (function(){
 (function(){if(window.PACO_EN_FRAME)return;
  if(document.documentElement.className.indexOf('paco-pg-login')===-1)return;function pacoLimpiarErroresLogin(){try{
