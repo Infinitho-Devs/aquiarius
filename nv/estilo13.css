@@ -1793,12 +1793,18 @@ html.paco-pg-mapa form#SeatmapQuickPickForm .sw-error{
    ShoWare para este widget (que carga DESPUES del nuestro y usa
    !important el mismo) se comia el fondo/padding/color y la
    pildora se veia como texto plano -- de ahi el !important en
-   todo, igual que el resto de las reglas de este bloque. Ademas,
-   como las animaciones CSS nunca le ganan a una declaracion
-   !important (aunque sea propia), se deja un degradado estatico
-   con !important como base para que la caja se vea SIEMPRE,
-   incluso si el pulso de color quedara bloqueado. */
+   todo, igual que el resto de las reglas de este bloque.
+   El pulso de color en sí NO puede llevar !important propio (las
+   animaciones CSS nunca le ganan a una declaración !important,
+   ni siquiera a una propia), así que el fondo degradado y estático
+   con !important de abajo queda solo como red de seguridad
+   -- lo que realmente pinta el pulso es un ::before propio (que
+   ShoWare nunca pudo anticipar, así que no lo pisa) superpuesto
+   con position:absolute + z-index:-1 dentro del stacking context
+   que crea la pildora (position:relative + z-index:0). */
 html.paco-pg-mapa.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeading .paco-quickpick-badge{
+  position:relative!important;
+  z-index:0!important;
   display:inline-flex!important;
   align-items:center!important;
   box-sizing:border-box!important;
@@ -1816,29 +1822,33 @@ html.paco-pg-mapa.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeadin
   text-transform:uppercase!important;
   text-shadow:none!important;
   cursor:default!important;
-  animation:paco-rapida-badge-pulso 2.6s ease-in-out infinite!important;
+}
+html.paco-pg-mapa.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeading .paco-quickpick-badge::before{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:-1!important;
+  border-radius:inherit!important;
+  animation:paco-rapida-badge-pulso 2.6s ease-in-out infinite;
 }
 @keyframes paco-rapida-badge-pulso{
   0%,100%{
     background-color:#1ebe5d;
     background-image:linear-gradient(180deg,#29d46d 0%,#1ebe5d 100%);
-    box-shadow:0 6px 16px rgba(30,190,93,.4);
   }
   50%{
     background-color:#DFBA53;
     background-image:linear-gradient(180deg,#f0cf72 0%,#DFBA53 100%);
-    box-shadow:0 6px 16px rgba(223,186,83,.4);
   }
 }
 @media (max-width:600px){
   html.paco-pg-mapa.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeading .paco-quickpick-badge{font-size:9.5px!important;letter-spacing:.6px!important;padding:4px 10px!important}
 }
 @media (prefers-reduced-motion:reduce){
-  html.paco-pg-mapa.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeading .paco-quickpick-badge{
+  html.paco-pg-mapa.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeading .paco-quickpick-badge::before{
     animation:none!important;
     background-color:#1ebe5d!important;
     background-image:linear-gradient(180deg,#29d46d 0%,#1ebe5d 100%)!important;
-    box-shadow:0 6px 16px rgba(30,190,93,.4)!important;
   }
 }
 
