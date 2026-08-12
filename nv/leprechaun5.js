@@ -204,10 +204,11 @@ window.PACO_POPUP={mostrarPopup:true,
  logoVisaClaro:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/visa.jpg',
  tarjeta:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/scotiabank_tarjeta.png'
 };window.PACO_PROMO={mostrar:true,
- titulo:'Descuento exclusivo para tarjetas Scotiabank',
+ titulo:'Descuento exclusivo para tarjetas Scotiabank Visa',
  subtitulo:'Aplica 15% de descuento en tu compra. Solo tarjetas emitidas en República Dominicana.',
  porcentaje:'15%',
  etiqueta:'DESCUENTO BANCARIO',
+ preventaTexto:'PREVENTA EXCLUSIVA <span class="paco-brsv-presale-accent">SCOTIABANK VISA</span>',
  campoTitulo:'Ingresa los primeros 6 dígitos de tu tarjeta participante',
  campoPlaceholder:'Código o primeros 6 dígitos de tu tarjeta',
  campoBoton:'Habilitar descuento',longitudMax:0,pasos:[
@@ -489,8 +490,13 @@ function renderCustomCart(){try{window.pacoNumRender=(window.pacoNumRender||0)+ 
                             `;});
  var listHTML=`<div class="paco-cart-list">${itemsHTML}</div>`;
  var promoHTML='';try{var cfgP=window.PACO_PROMO||{};var infoD=pacoDescuentoInfo();window.pacoUltimoAplicado=infoD.aplicado;
- var soloSiDetecta=(cfgP.mostrar==='auto');if(cfgP.mostrar&&(cfgP.forzar||infoD.campo)&&
-(!soloSiDetecta||cfgP.forzar||infoD.disponible)){
+ var soloSiDetecta=(cfgP.mostrar==='auto');
+ // infoD.aplicado se agrega a ambas condiciones: ShoWare a veces retira
+ // #couponCode/.add-coupon del DOM una vez el descuento ya fue aplicado,
+ // lo que apagaba infoD.campo y hacía desaparecer toda la caja justo
+ // cuando más útil es (confirmando que el descuento sí quedó aplicado).
+ if(cfgP.mostrar&&(cfgP.forzar||infoD.campo||infoD.aplicado)&&
+(!soloSiDetecta||cfgP.forzar||infoD.disponible||infoD.aplicado)){
  var logoBrsv=(window.PACO_DESCUENTO&&window.PACO_DESCUENTO.logo)||'';
  var logoVisaBrsv=(window.PACO_DESCUENTO&&window.PACO_DESCUENTO.logoVisa)||'';
  var tarjetaBrsv=(window.PACO_DESCUENTO&&window.PACO_DESCUENTO.tarjeta)||'';
@@ -524,14 +530,16 @@ function renderCustomCart(){try{window.pacoNumRender=(window.pacoNumRender||0)+ 
 '<div class="paco-brsv-body">'+
 '<div class="paco-brsv-card">'+
 (tarjetaBrsv?'<img class="paco-brsv-cardimg" src="'+ tarjetaBrsv +'" alt="Tarjeta Scotiabank" loading="lazy">':'')+
+(logoVisaBrsv?'<span class="paco-brsv-card-visa"><img src="'+ logoVisaBrsv +'" alt="Visa"></span>':'')+
 '<span class="paco-brsv-dots"><b>'+(draft?pacoEsc(pacoNormalizarCodigo(draft).substring(0,4)):'&bull;&bull;&bull;&bull;')+'</b>&nbsp;&bull;&bull;&bull;&bull;&nbsp;&bull;&bull;&bull;&bull;</span>'+
 '</div>'+
-'<div class="paco-brsv-form">'+
+(cfgP.preventaTexto?'<div class="paco-brsv-presale"><span class="paco-brsv-presale-line"></span><p class="paco-brsv-presale-txt">'+ cfgP.preventaTexto +'</p></div>':'')+
+'<div class="paco-brsv-form paco-brsv-form--desactivado">'+
 '<label class="paco-brsv-label" for="paco-coupon-input">'+(cfgP.campoTitulo||'Ingresa los primeros 6 dígitos de tu tarjeta participante')+'</label>'+
 '<div class="paco-brsv-inputrow">'+
-'<input id="paco-coupon-input" class="paco-brsv-input" type="text" autocomplete="off" spellcheck="false"'+ maxAttr +
-' placeholder="'+ pacoEsc(cfgP.campoPlaceholder||'Tu código')+'" value="'+ pacoEsc(draft)+'" aria-label="Código de descuento" style="background: rgba(0,0,0,0.45) !important; color: #ffffff !important;">'+
-'<button type="button" id="paco-coupon-btn" class="paco-brsv-btn" style="background-color: #DFBA53 !important; color: #06251a !important;">'+(cfgP.campoBoton||'Habilitar descuento')+'</button>'+
+'<input id="paco-coupon-input" class="paco-brsv-input" type="text" autocomplete="off" spellcheck="false" disabled="disabled" readonly="readonly" aria-disabled="true"'+ maxAttr +
+' placeholder="'+ pacoEsc(cfgP.campoPlaceholder||'Tu código')+'" value="'+ pacoEsc(draft)+'" aria-label="Código de descuento (deshabilitado)" style="background: rgba(0,0,0,0.45) !important; color: #ffffff !important;">'+
+'<button type="button" id="paco-coupon-btn" class="paco-brsv-btn" disabled="disabled" aria-disabled="true" style="background-color: #DFBA53 !important; color: #06251a !important;">'+(cfgP.campoBoton||'Habilitar descuento')+'</button>'+
 '</div>'+
 '<p class="paco-brsv-msg'+(infoD.aplicado?' paco-ok':'')+'">'+
 (infoD.aplicado?'&#10003; Descuento aplicado a las boletas que participan.':'')+
@@ -1977,8 +1985,8 @@ function pacoFinPasada(){pacoMarcarResultado();pacoEngancharFactura();pacoEnsanc
 (function(){
 window.PACO_CHECKOUT_LOGOS=[
 {nombre:'Visa',marca:'visa',src:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/visa.jpg'},
-{nombre:'Mastercard',marca:'mastercard',src:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/mastercard.jpg'},
-{nombre:'American Express',marca:'amex',src:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/amex.jpg'}
+{nombre:'Mastercard',marca:'mastercard',src:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/mastercard.jpg',activo:false},
+{nombre:'American Express',marca:'amex',src:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/amex.jpg',activo:false}
 ];
 })();
 ;
@@ -1991,7 +1999,7 @@ if(!elegido)elegido=huecos[0];var destino=elegido.parentElement||elegido;
  var todas=document.querySelectorAll('.paco-cc-logos');for(var k=0;k<todas.length;k++){if(todas[k].parentNode===destino)continue;if(todas[k].parentNode)todas[k].parentNode.removeChild(todas[k]);}
  if(destino.querySelector('.paco-cc-logos'))return;
  var fila=document.createElement('span');
- fila.className='paco-cc-logos';for(var j=0;j<lista.length;j++){var marca=lista[j]||{};if(!marca.src)continue;
+ fila.className='paco-cc-logos';for(var j=0;j<lista.length;j++){var marca=lista[j]||{};if(!marca.src)continue;if(marca.activo===false)continue;
  var nombre=marca.nombre||'';
  var item=document.createElement('span');
  var slugMarca=(marca.marca||nombre||'')
@@ -2212,11 +2220,19 @@ function ponerAyuda(){
  var ico=document.createElement('i');ico.textContent=pasos[i][0];
  var txt=document.createElement('span');txt.innerHTML=pasos[i][1];li.appendChild(ico);li.appendChild(txt);ul.appendChild(li);}
  var cupon=document.querySelector('.seatmapCouponWrap');var ancla=(cupon&&cupon.parentNode===mapa.parentNode)?cupon:mapa;ancla.parentNode.insertBefore(ul,ancla);}
+function ponerBadgeRapida(){
+ var heading=document.getElementById('SeatmapQuickPickHeading');
+ if(!heading||heading.querySelector('.paco-quickpick-badge'))return;
+ heading.textContent='';
+ var badge=document.createElement('span');
+ badge.className='paco-quickpick-badge';
+ badge.textContent='SELECCIÓN RÁPIDA - TERRENO Y FRONT STAGE';
+ heading.appendChild(badge);}
 function marcarPanel(){
  var panel=document.getElementById('SelectedSeats');
  var abierto=!!(panel&&panel.classList.contains('has-seats'));
  document.documentElement.classList.toggle('paco-mapa-panel',abierto);}
-function pasada(){vigilarWrapper();guardarRueda();ponerAyuda();marcarPanel();}
+function pasada(){vigilarWrapper();guardarRueda();ponerBadgeRapida();ponerAyuda();marcarPanel();}
 pasada();
  document.addEventListener('DOMContentLoaded',pasada);
  window.addEventListener('load',function(){pasada();setTimeout(pedirRemedida,400);setTimeout(pedirRemedida,1200);});
