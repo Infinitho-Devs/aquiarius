@@ -489,8 +489,13 @@ function renderCustomCart(){try{window.pacoNumRender=(window.pacoNumRender||0)+ 
                             `;});
  var listHTML=`<div class="paco-cart-list">${itemsHTML}</div>`;
  var promoHTML='';try{var cfgP=window.PACO_PROMO||{};var infoD=pacoDescuentoInfo();window.pacoUltimoAplicado=infoD.aplicado;
- var soloSiDetecta=(cfgP.mostrar==='auto');if(cfgP.mostrar&&(cfgP.forzar||infoD.campo)&&
-(!soloSiDetecta||cfgP.forzar||infoD.disponible)){
+ var soloSiDetecta=(cfgP.mostrar==='auto');
+ // infoD.aplicado se agrega a ambas condiciones: ShoWare a veces retira
+ // #couponCode/.add-coupon del DOM una vez el descuento ya fue aplicado,
+ // lo que apagaba infoD.campo y hacía desaparecer toda la caja justo
+ // cuando más útil es (confirmando que el descuento sí quedó aplicado).
+ if(cfgP.mostrar&&(cfgP.forzar||infoD.campo||infoD.aplicado)&&
+(!soloSiDetecta||cfgP.forzar||infoD.disponible||infoD.aplicado)){
  var logoBrsv=(window.PACO_DESCUENTO&&window.PACO_DESCUENTO.logo)||'';
  var logoVisaBrsv=(window.PACO_DESCUENTO&&window.PACO_DESCUENTO.logoVisa)||'';
  var tarjetaBrsv=(window.PACO_DESCUENTO&&window.PACO_DESCUENTO.tarjeta)||'';
