@@ -1784,6 +1784,52 @@ html.paco-pg-mapa form#SeatmapQuickPickForm .sw-error{
   html.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeading::before{animation:none!important;box-shadow:none!important}
 }
 
+/* -- Aviso "SELECCIÓN RÁPIDA - TERRENO Y FRONT STAGE" --
+   Caja tipo botón inyectada por JS (ponerBadgeRapida) justo encima
+   del cupón/mapa, que alterna entre el verde y el dorado de marca
+   para que el usuario la note de inmediato al entrar al mapa. */
+html.paco-pg-mapa .paco-mapa-rapida-badge{
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  margin:0 0 14px;
+  padding:14px 18px;
+  border-radius:14px;
+  text-align:center;
+  color:#06251a;
+  font-family:"OVERTURE","Montserrat",sans-serif;
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:1.6px;
+  line-height:1.4;
+  text-transform:uppercase;
+  cursor:default;
+  animation:paco-rapida-badge-pulso 2.6s ease-in-out infinite;
+}
+@keyframes paco-rapida-badge-pulso{
+  0%,100%{
+    background-color:#1ebe5d;
+    background-image:linear-gradient(180deg,#29d46d 0%,#1ebe5d 100%);
+    box-shadow:0 10px 26px rgba(30,190,93,.4);
+  }
+  50%{
+    background-color:#DFBA53;
+    background-image:linear-gradient(180deg,#f0cf72 0%,#DFBA53 100%);
+    box-shadow:0 10px 26px rgba(223,186,83,.4);
+  }
+}
+@media (max-width:600px){
+  html.paco-pg-mapa .paco-mapa-rapida-badge{font-size:11.5px;letter-spacing:1.1px;padding:12px 14px}
+}
+@media (prefers-reduced-motion:reduce){
+  html.paco-pg-mapa .paco-mapa-rapida-badge{
+    animation:none;
+    background-color:#1ebe5d;
+    background-image:linear-gradient(180deg,#29d46d 0%,#1ebe5d 100%);
+    box-shadow:0 10px 26px rgba(30,190,93,.4);
+  }
+}
+
 /* ============================================================
    BOLETAS EN 3 SECCIONES  --  reemplaza el carrusel de 5 tarjetas
    ------------------------------------------------------------
@@ -1986,66 +2032,20 @@ html.paco-pg-mapa form#SeatmapQuickPickForm .sw-error{
 }
 
 /* ============================================================
-   BASKET.ASP (CARRITO)  --  aviso de selección rápida, Visa en la
-   tarjeta, código nativo inhabilitado y pasos del popup ocultos
+   BASKET.ASP (CARRITO)  --  Visa en la tarjeta, código nativo
+   inhabilitado y pasos del popup ocultos
    ------------------------------------------------------------
-   1) Aviso "SELECCIÓN RÁPIDA - TERRENO Y FRONT STAGE": caja tipo
-      botón arriba de la lista de boletas que alterna entre el
-      verde y el dorado de marca para que se note de inmediato.
-   2) Logo de Visa superpuesto en la tarjeta (como el logo de red
+   1) Logo de Visa superpuesto en la tarjeta (como el logo de red
       de una tarjeta real), además de los logos que ya salían en
       la cabecera del banner de descuento.
-   3) El campo de código nativo (input + botón) queda visible pero
+   2) El campo de código nativo (input + botón) queda visible pero
       inhabilitado -- no se elimina del DOM ni del JS.
-   4) Los 3 pasos del popup de bienvenida quedan ocultos por CSS;
+   3) Los 3 pasos del popup de bienvenida quedan ocultos por CSS;
       el arreglo de pasos y el <ul> se siguen generando en el JS,
       solo no se pintan en pantalla.
    ============================================================ */
 
-/* -- 1. Aviso "Selección rápida" -- */
-.paco-cart-quickbadge{
-  display:block;
-  box-sizing:border-box;
-  width:100%;
-  margin:0 0 22px;
-  padding:14px 18px;
-  border-radius:14px;
-  text-align:center;
-  color:#06251a;
-  font-family:"OVERTURE","Montserrat",sans-serif;
-  font-size:13px;
-  font-weight:800;
-  letter-spacing:1.6px;
-  line-height:1.4;
-  text-transform:uppercase;
-  cursor:default;
-  animation:paco-quickbadge-pulso 2.6s ease-in-out infinite;
-}
-@keyframes paco-quickbadge-pulso{
-  0%,100%{
-    background-color:#1ebe5d;
-    background-image:linear-gradient(180deg,#29d46d 0%,#1ebe5d 100%);
-    box-shadow:0 10px 26px rgba(30,190,93,.4);
-  }
-  50%{
-    background-color:#DFBA53;
-    background-image:linear-gradient(180deg,#f0cf72 0%,#DFBA53 100%);
-    box-shadow:0 10px 26px rgba(223,186,83,.4);
-  }
-}
-@media (max-width:600px){
-  .paco-cart-quickbadge{font-size:11.5px;letter-spacing:1.1px;padding:12px 14px}
-}
-@media (prefers-reduced-motion:reduce){
-  .paco-cart-quickbadge{
-    animation:none;
-    background-color:#1ebe5d;
-    background-image:linear-gradient(180deg,#29d46d 0%,#1ebe5d 100%);
-    box-shadow:0 10px 26px rgba(30,190,93,.4);
-  }
-}
-
-/* -- 2. Logo de Visa sobre la tarjeta -- */
+/* -- 1. Logo de Visa sobre la tarjeta -- */
 .paco-brsv-card-visa{
   position:absolute;
   right:14px;
@@ -2068,7 +2068,7 @@ html.paco-pg-mapa form#SeatmapQuickPickForm .sw-error{
   object-fit:contain;
 }
 
-/* -- 3. Campo de código nativo: visible pero inhabilitado -- */
+/* -- 2. Campo de código nativo: visible pero inhabilitado -- */
 .paco-brsv-form--desactivado .paco-brsv-input,
 .paco-brsv-form--desactivado .paco-brsv-btn{
   opacity:.5!important;
@@ -2085,5 +2085,5 @@ html.paco-pg-mapa form#SeatmapQuickPickForm .sw-error{
   box-shadow:none!important;
 }
 
-/* -- 4. Popup de bienvenida: se ocultan los 3 pasos (siguen en el JS) -- */
+/* -- 3. Popup de bienvenida: se ocultan los 3 pasos (siguen en el JS) -- */
 .paco-popup-steps{display:none!important}
