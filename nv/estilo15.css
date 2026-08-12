@@ -1127,21 +1127,37 @@ html.paco-pg-aviso .paco-native-box input[type="hidden"]{display:none!important}
 /* ============================================================
    CHECKOUT_STREAMLINED.ASP  (html.paco-pg-pago)
    ------------------------------------------------------------
-   1) "Costo de envio" salia en gris apagado: se le da color de
-      marca (etiqueta dorada + valor blanco) para que se lea.
+   1) "Costo de envio" salia en gris apagado y con una tipografia
+      distinta (Montserrat, sin mayusculas, mas chica) a la del
+      resto de filas del resumen ("Total a pagar", "Equivalente en
+      dolares", "Tipo de cambio", que usan .checkout-basket-total-label
+      / [class*="checkout-basket-total-label-"]: OVERTURE, 11.5px,
+      800, mayusculas, dorado). Se iguala etiqueta Y valor a esa
+      misma tipografia/color para que todas las filas se vean
+      simetricas (mismo tamano, mismo color).
    2) El aviso "Solo es posible comprar con tarjetas participantes"
       se convierte (por JS) en un popup con boton "Entendido".
    ============================================================ */
 
-/* ── 1. Fila "Costo de envio" (y demas filas menores) con color ── */
+/* ── 1. Fila "Costo de envio" igualada al resto de filas del resumen ── */
 html.paco-pg-pago #checkoutWrap .checkout-basket-total .minor-label{
   color:#DFBA53!important;
-  font-weight:700!important;
+  font-family:"OVERTURE","Montserrat",sans-serif!important;
+  font-size:11.5px!important;
+  font-weight:800!important;
+  letter-spacing:1.1px!important;
+  text-transform:uppercase!important;
+  line-height:1.6!important;
 }
 html.paco-pg-pago #checkoutWrap .checkout-basket-total .minor-total,
 html.paco-pg-pago #checkoutWrap #summaryDeliveryFeesTotal{
-  color:#ffffff!important;
-  font-weight:700!important;
+  color:#DFBA53!important;
+  font-family:"OVERTURE","Montserrat",sans-serif!important;
+  font-size:11.5px!important;
+  font-weight:800!important;
+  letter-spacing:1.1px!important;
+  line-height:1.6!important;
+  white-space:nowrap!important;
 }
 
 /* ── 2. Popup de aviso (tarjetas participantes) ── */
