@@ -2016,17 +2016,20 @@ html.paco-pg-mapa.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeadin
   stroke-linejoin:round;
 }
 
-/* Seccion 4 -- CTA suelto, con el mismo look "hero" (verde, brillo
-   en movimiento) que el boton principal del banner, para que sea
-   el elemento con mas fuerza visual de las 4 secciones. */
-.fpx-ticket-cta{width:100%;max-width:420px;padding:0 20px;box-sizing:border-box}
-.fpx-ticket-cta .pmf-planes__btn{
+/* Boton "COMPRAR BOLETAS" dentro de la caja destacada (ver mas abajo
+   .fpx-ticket-highlight): mismo look "hero" (verde, brillo en
+   movimiento) que el boton principal del banner, pero centrado y de
+   ancho auto dentro de la caja en vez de ancho completo suelto. */
+.fpx-ticket-highlight__btn.pmf-planes__btn{
   position:relative!important;
   overflow:hidden!important;
   isolation:isolate;
-  width:100%!important;
-  padding:19px 20px!important;
-  font-size:clamp(20px,2.4vw,25px)!important;
+  display:inline-flex!important;
+  width:auto!important;
+  min-width:260px;
+  margin:10px auto 0!important;
+  padding:17px 40px!important;
+  font-size:clamp(19px,2.2vw,23px)!important;
   letter-spacing:2.5px!important;
   border:none!important;
   border-radius:14px!important;
@@ -2035,7 +2038,7 @@ html.paco-pg-mapa.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeadin
   box-shadow:0 16px 36px rgba(0,229,140,.4),inset 0 1px 0 rgba(255,255,255,.5)!important;
   transition:transform .2s ease,box-shadow .2s ease,filter .2s ease!important;
 }
-.fpx-ticket-cta .pmf-planes__btn::after{
+.fpx-ticket-highlight__btn.pmf-planes__btn::after{
   content:"";
   position:absolute;
   top:0;
@@ -2047,29 +2050,36 @@ html.paco-pg-mapa.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeadin
   animation:fpx-sheen 3.4s ease-in-out infinite;
   pointer-events:none;
 }
-.fpx-ticket-cta .pmf-planes__btn:hover{
+.fpx-ticket-highlight__btn.pmf-planes__btn:hover{
   transform:translateY(-3px)!important;
   filter:brightness(1.05)!important;
   box-shadow:0 22px 48px rgba(0,229,140,.55),inset 0 1px 0 rgba(255,255,255,.55)!important;
 }
 
-/* ===== Mapa + precios lado a lado (precios a la izquierda, mapa a la derecha) ===== */
+/* ===== Mapa + precios lado a lado (mapa a la izquierda, precios a la derecha) ===== */
 .fpx-ticket-top{display:flex;align-items:center;gap:36px;width:100%;max-width:1400px;margin:0 auto}
+.fpx-ticket-top .fpx-ticket-map{flex:1.2 1 0;min-width:0;width:auto;max-width:none;margin:0}
+.fpx-ticket-top .fpx-ticket-map__img{max-height:70vh}
 .fpx-ticket-top .fpx-ticket-prices{flex:1 1 0;min-width:0;width:auto;max-width:none;padding:0;text-align:left}
-.fpx-ticket-top .fpx-ticket-map{flex:1 1 0;min-width:0;width:auto;max-width:none;margin:0}
-.fpx-ticket-top .fpx-ticket-map__img{max-height:60vh}
 
 /* ===== Caja destacada "Tu boleta incluye" + precio por los 2 dias =====
-   Borde conico animado (gira) + resplandor que respira, mismo lenguaje
-   verde/dorado del boton de compra, para que llame la atencion. */
+   Orden vertical fijo: pildora (comprar + 2 dias) > titulo > texto >
+   boton, todo centrado dentro de una sola caja. Filo dorado/verde
+   ESTATICO (sin giro) + resplandor que respira; el filo giratorio
+   anterior (conic-gradient rotando) dejaba ver las costuras del
+   degradado como rayas rectas cruzando la caja -- de ahi que ahora
+   el borde no gira, solo el resplandor (box-shadow) pulsa. */
 .fpx-ticket-highlight{
   position:relative;
   isolation:isolate;
   overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
   width:100%;
   max-width:820px;
   margin:0 auto !important;
-  padding:34px 38px;
+  padding:38px 38px 34px;
   border-radius:22px;
   text-align:center;
   background-color:#070810;
@@ -2082,15 +2092,14 @@ html.paco-pg-mapa.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeadin
   inset:0;
   z-index:-1;
   border-radius:inherit;
-  padding:2px;
-  background:conic-gradient(from 0deg,#00E58C,#F6C560,#00E58C 50%,#F6C560,#00E58C);
+  padding:1.5px;
+  background:linear-gradient(135deg,#00E58C 0%,rgba(0,229,140,.12) 38%,rgba(246,197,96,.12) 62%,#F6C560 100%);
   -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
   mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
   -webkit-mask-composite:xor;
   mask-composite:exclude;
-  animation:fpx-highlight-spin 5s linear infinite;
+  pointer-events:none;
 }
-@keyframes fpx-highlight-spin{to{transform:rotate(360deg)}}
 @keyframes fpx-highlight-glow{
   0%,100%{box-shadow:0 18px 50px rgba(0,0,0,.5),0 0 28px rgba(0,229,140,.22)}
   50%{box-shadow:0 18px 60px rgba(0,0,0,.55),0 0 55px rgba(0,229,140,.5)}
@@ -2142,13 +2151,13 @@ html.paco-pg-mapa.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeadin
   .fpx-ticket-prices__row{padding:13px 16px}
   .fpx-ticket-highlight{padding:26px 22px}
   .fpx-ticket-highlight__title{font-size:26px}
+  .fpx-ticket-highlight__btn.pmf-planes__btn{width:100%!important;min-width:0}
 }
 
 @media (prefers-reduced-motion:reduce){
-  .fpx-ticket-cta .pmf-planes__btn::after{animation:none!important;opacity:0!important}
-  .fpx-ticket-cta .pmf-planes__btn:hover{transform:none!important}
-  .fpx-ticket-highlight,
-  .fpx-ticket-highlight::before{animation:none!important}
+  .fpx-ticket-highlight__btn.pmf-planes__btn::after{animation:none!important;opacity:0!important}
+  .fpx-ticket-highlight__btn.pmf-planes__btn:hover{transform:none!important}
+  .fpx-ticket-highlight{animation:none!important}
 }
 
 /* ============================================================
