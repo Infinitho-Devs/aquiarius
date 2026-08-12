@@ -208,6 +208,8 @@ window.PACO_POPUP={mostrarPopup:true,
  subtitulo:'Aplica 15% de descuento en tu compra. Solo tarjetas emitidas en República Dominicana.',
  porcentaje:'15%',
  etiqueta:'DESCUENTO BANCARIO',
+ preventaTexto:'PREVENTA EXCLUSIVA <span class="paco-brsv-presale-accent">SCOTIABANK VISA</span>',
+ preventaSubtexto:'Aplica solo con tarjetas Scotiabank Visa participantes.',
  campoTitulo:'Ingresa los primeros 6 dígitos de tu tarjeta participante',
  campoPlaceholder:'Código o primeros 6 dígitos de tu tarjeta',
  campoBoton:'Habilitar descuento',longitudMax:0,pasos:[
@@ -532,6 +534,7 @@ function renderCustomCart(){try{window.pacoNumRender=(window.pacoNumRender||0)+ 
 (logoVisaBrsv?'<span class="paco-brsv-card-visa"><img src="'+ logoVisaBrsv +'" alt="Visa"></span>':'')+
 '<span class="paco-brsv-dots"><b>'+(draft?pacoEsc(pacoNormalizarCodigo(draft).substring(0,4)):'&bull;&bull;&bull;&bull;')+'</b>&nbsp;&bull;&bull;&bull;&bull;&nbsp;&bull;&bull;&bull;&bull;</span>'+
 '</div>'+
+(cfgP.preventaTexto?'<div class="paco-brsv-presale"><span class="paco-brsv-presale-line"></span><p class="paco-brsv-presale-txt">'+ cfgP.preventaTexto +'</p>'+(cfgP.preventaSubtexto?'<p class="paco-brsv-presale-sub">'+ cfgP.preventaSubtexto +'</p>':'')+'</div>':'')+
 '<div class="paco-brsv-form paco-brsv-form--desactivado">'+
 '<label class="paco-brsv-label" for="paco-coupon-input">'+(cfgP.campoTitulo||'Ingresa los primeros 6 dígitos de tu tarjeta participante')+'</label>'+
 '<div class="paco-brsv-inputrow">'+
