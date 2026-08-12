@@ -2186,7 +2186,7 @@ function vigilarWrapper(){
  var wrap=document.getElementById('SeatmapCanvasWrapper');
  if(!wrap||wrap.getAttribute('data-paco-observado'))return;var w=wrap.clientWidth,h=wrap.clientHeight;if(!w||!h)return;
  wrap.setAttribute('data-paco-observado','1');ultimoW=w;ultimoH=h;if(!window.ResizeObserver)return;new ResizeObserver(function(){var nw=wrap.clientWidth,nh=wrap.clientHeight;if(!nw||!nh)return;if(Math.abs(nw - ultimoW)<2&&Math.abs(nh - ultimoH)<2)return;ultimoW=nw;ultimoH=nh;pedirRemedida();}).observe(wrap);}
-var cfgScroll=window.PACO_MAPA_SCROLL=window.PACO_MAPA_SCROLL||{};if(cfgScroll.ruedaDesplazaPagina===undefined)cfgScroll.ruedaDesplazaPagina=true;if(cfgScroll.avisar===undefined)cfgScroll.avisar=true;
+var cfgScroll=window.PACO_MAPA_SCROLL=window.PACO_MAPA_SCROLL||{};if(cfgScroll.ruedaDesplazaPagina===undefined)cfgScroll.ruedaDesplazaPagina=false;if(cfgScroll.avisar===undefined)cfgScroll.avisar=true;
  if(!cfgScroll.textoAviso)cfgScroll.textoAviso='Usa Ctrl + rueda, o los botones + / −, para acercar el mapa';function guardarRueda(){if(!cfgScroll.ruedaDesplazaPagina)return;
  var wrap=document.getElementById('SeatmapCanvasWrapper');
  if(!wrap||wrap.getAttribute('data-paco-rueda'))return;
@@ -2733,7 +2733,7 @@ window.PACO_PAGO_AVISO=window.PACO_PAGO_AVISO||{activo:true,
    agregar otra entrada a `enlaces` con 'privacystatement.asp'. */
 window.PACO_TERMINOS=window.PACO_TERMINOS||{activo:true,
  enlaces:[
-  {coincide:'termsofuse.asp',url:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/prueba.pdf'}
+  {coincide:'termsofuse.asp',url:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/tc-fp-2026.pdf'}
  ]
 };
 })();
