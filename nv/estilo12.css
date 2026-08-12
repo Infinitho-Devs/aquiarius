@@ -1785,23 +1785,22 @@ html.paco-pg-mapa form#SeatmapQuickPickForm .sw-error{
 }
 
 /* -- Aviso "SELECCIÓN RÁPIDA - TERRENO Y FRONT STAGE" --
-   Caja tipo botón inyectada por JS (ponerBadgeRapida) justo encima
-   del cupón/mapa, que alterna entre el verde y el dorado de marca
-   para que el usuario la note de inmediato al entrar al mapa. */
-html.paco-pg-mapa .paco-mapa-rapida-badge{
-  display:block;
+   Reemplaza (por JS, ponerBadgeRapida) el texto nativo "Selección
+   Rápida" del encabezado por una pildora pequeña que alterna entre
+   el verde y el dorado de marca. El rayo (icono ::before) y la
+   frase de ayuda (::after) del encabezado no se tocan. */
+html.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeading .paco-quickpick-badge{
+  display:inline-flex;
+  align-items:center;
   box-sizing:border-box;
-  width:100%;
-  margin:0 0 14px;
-  padding:14px 18px;
-  border-radius:14px;
-  text-align:center;
+  padding:5px 13px;
+  border-radius:999px;
   color:#06251a;
   font-family:"OVERTURE","Montserrat",sans-serif;
-  font-size:13px;
+  font-size:11px;
   font-weight:800;
-  letter-spacing:1.6px;
-  line-height:1.4;
+  letter-spacing:1px;
+  line-height:1.3;
   text-transform:uppercase;
   cursor:default;
   animation:paco-rapida-badge-pulso 2.6s ease-in-out infinite;
@@ -1810,23 +1809,23 @@ html.paco-pg-mapa .paco-mapa-rapida-badge{
   0%,100%{
     background-color:#1ebe5d;
     background-image:linear-gradient(180deg,#29d46d 0%,#1ebe5d 100%);
-    box-shadow:0 10px 26px rgba(30,190,93,.4);
+    box-shadow:0 6px 16px rgba(30,190,93,.4);
   }
   50%{
     background-color:#DFBA53;
     background-image:linear-gradient(180deg,#f0cf72 0%,#DFBA53 100%);
-    box-shadow:0 10px 26px rgba(223,186,83,.4);
+    box-shadow:0 6px 16px rgba(223,186,83,.4);
   }
 }
 @media (max-width:600px){
-  html.paco-pg-mapa .paco-mapa-rapida-badge{font-size:11.5px;letter-spacing:1.1px;padding:12px 14px}
+  html.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeading .paco-quickpick-badge{font-size:9.5px;letter-spacing:.6px;padding:4px 10px}
 }
 @media (prefers-reduced-motion:reduce){
-  html.paco-pg-mapa .paco-mapa-rapida-badge{
+  html.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeading .paco-quickpick-badge{
     animation:none;
     background-color:#1ebe5d;
     background-image:linear-gradient(180deg,#29d46d 0%,#1ebe5d 100%);
-    box-shadow:0 10px 26px rgba(30,190,93,.4);
+    box-shadow:0 6px 16px rgba(30,190,93,.4);
   }
 }
 
