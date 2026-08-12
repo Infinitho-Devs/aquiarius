@@ -603,7 +603,6 @@ if(natFeeDesc&&natFeeDesc.innerHTML.trim()){window.pacoUltimoFee=natFeeDesc.inne
                         `;}
  customWrapper.innerHTML=`
                         <h2 class="paco-cart-title">RESUMEN DE COMPRA</h2>
-                        <div class="paco-cart-quickbadge">SELECCIÓN RÁPIDA - TERRENO Y FRONT STAGE</div>
                         ${itemsHTML}
                     `;
  var couponInput=customWrapper.querySelector('#paco-coupon-input');
@@ -2214,11 +2213,19 @@ function ponerAyuda(){
  var ico=document.createElement('i');ico.textContent=pasos[i][0];
  var txt=document.createElement('span');txt.innerHTML=pasos[i][1];li.appendChild(ico);li.appendChild(txt);ul.appendChild(li);}
  var cupon=document.querySelector('.seatmapCouponWrap');var ancla=(cupon&&cupon.parentNode===mapa.parentNode)?cupon:mapa;ancla.parentNode.insertBefore(ul,ancla);}
+function ponerBadgeRapida(){
+ if(document.querySelector('.paco-mapa-rapida-badge'))return;
+ var mapa=document.getElementById('SeatmapMain');if(!mapa||!mapa.parentNode)return;
+ var cupon=document.querySelector('.seatmapCouponWrap');var ancla=(cupon&&cupon.parentNode===mapa.parentNode)?cupon:mapa;
+ var badge=document.createElement('div');
+ badge.className='paco-mapa-rapida-badge';
+ badge.textContent='SELECCIÓN RÁPIDA - TERRENO Y FRONT STAGE';
+ ancla.parentNode.insertBefore(badge,ancla);}
 function marcarPanel(){
  var panel=document.getElementById('SelectedSeats');
  var abierto=!!(panel&&panel.classList.contains('has-seats'));
  document.documentElement.classList.toggle('paco-mapa-panel',abierto);}
-function pasada(){vigilarWrapper();guardarRueda();ponerAyuda();marcarPanel();}
+function pasada(){vigilarWrapper();guardarRueda();ponerBadgeRapida();ponerAyuda();marcarPanel();}
 pasada();
  document.addEventListener('DOMContentLoaded',pasada);
  window.addEventListener('load',function(){pasada();setTimeout(pedirRemedida,400);setTimeout(pedirRemedida,1200);});
