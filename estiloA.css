@@ -1884,7 +1884,7 @@ html.paco-pg-mapa.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeadin
   display:flex!important;
   flex-direction:column!important;
   align-items:center!important;
-  gap:40px!important;
+  gap:64px!important;
   width:100%!important;
   max-width:none!important;
   margin:0!important;
@@ -1989,8 +1989,9 @@ html.paco-pg-mapa.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeadin
 .fpx-ticket-list__items li{
   display:flex;
   align-items:center;
+  justify-content:center;
   gap:16px;
-  text-align:left;
+  text-align:center;
   color:#e8eaf2;
   font-size:clamp(15px,1.6vw,18px);
   line-height:1.6;
@@ -2085,7 +2086,7 @@ html.paco-pg-mapa.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeadin
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:38px;
+  gap:22px;
   width:100%;
 }
 .fpx-ticket-highlight{
@@ -2137,10 +2138,10 @@ html.paco-pg-mapa.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeadin
 }
 
 @media (max-width:640px){
-  .fpx-ticket-group.pmf-planes-wrapper{gap:30px!important}
+  .fpx-ticket-group.pmf-planes-wrapper{gap:44px!important}
   .fpx-ticket-top .fpx-ticket-map{width:92%}
   .fpx-ticket-prices__row{padding:13px 16px}
-  .fpx-ticket-highlight-wrap{gap:28px}
+  .fpx-ticket-highlight-wrap{gap:18px}
   .fpx-ticket-highlight{padding:13px 22px}
   .fpx-ticket-highlight__btn.pmf-planes__btn{width:100%!important;min-width:0}
 }
