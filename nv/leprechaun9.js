@@ -2214,13 +2214,13 @@ function ponerAyuda(){
  var txt=document.createElement('span');txt.innerHTML=pasos[i][1];li.appendChild(ico);li.appendChild(txt);ul.appendChild(li);}
  var cupon=document.querySelector('.seatmapCouponWrap');var ancla=(cupon&&cupon.parentNode===mapa.parentNode)?cupon:mapa;ancla.parentNode.insertBefore(ul,ancla);}
 function ponerBadgeRapida(){
- if(document.querySelector('.paco-mapa-rapida-badge'))return;
- var mapa=document.getElementById('SeatmapMain');if(!mapa||!mapa.parentNode)return;
- var cupon=document.querySelector('.seatmapCouponWrap');var ancla=(cupon&&cupon.parentNode===mapa.parentNode)?cupon:mapa;
- var badge=document.createElement('div');
- badge.className='paco-mapa-rapida-badge';
+ var heading=document.getElementById('SeatmapQuickPickHeading');
+ if(!heading||heading.querySelector('.paco-quickpick-badge'))return;
+ heading.textContent='';
+ var badge=document.createElement('span');
+ badge.className='paco-quickpick-badge';
  badge.textContent='SELECCIÓN RÁPIDA - TERRENO Y FRONT STAGE';
- ancla.parentNode.insertBefore(badge,ancla);}
+ heading.appendChild(badge);}
 function marcarPanel(){
  var panel=document.getElementById('SelectedSeats');
  var abierto=!!(panel&&panel.classList.contains('has-seats'));
