@@ -810,17 +810,27 @@ html.paco-pg-mapa #SelectedSeats select.showare-select:has(option.coupon-price-o
 
 /* El recuadro de precio "1%Desc..." (un <select> que sale disabled cuando
    hay un solo precio) traia una sombra: la del control nativo / estado
-   disabled del navegador. Se quita el sombreado del recuadro de precio
+   disabled del navegador. Un <select> deshabilitado ademas pinta un
+   bisel/sombra INTERIOR clarito (se ve blancuzco) que appearance:none no
+   siempre borra en todos los navegadores. Se apaga toda sombra —exterior
+   e interior— del recuadro de precio y de su contenedor de asiento.
    —incluye el de arriba, que es el mismo elemento repetido por asiento—. */
+html.paco-pg-mapa #SelectedSeats .selected-item,
+html.paco-pg-mapa #SelectedSeats .selected-seat,
+html.paco-pg-mapa #SelectedSeats .selected-seat-info,
 html.paco-pg-mapa #SelectedSeats select.selected-seat-price,
 html.paco-pg-mapa #SelectedSeats select.showare-select,
 html.paco-pg-mapa #SelectedSeats select.selected-seat-price:disabled,
 html.paco-pg-mapa #SelectedSeats select.showare-select:disabled,
+html.paco-pg-mapa #SelectedSeats select.selected-seat-price:disabled:hover,
 html.paco-pg-mapa #SelectedSeats .selected-seat-price{
   box-shadow:none!important;
+  -webkit-box-shadow:none!important;
   -webkit-appearance:none!important;
+  -moz-appearance:none!important;
   appearance:none!important;
   text-shadow:none!important;
+  filter:none!important;
 }
 
 
