@@ -1,4 +1,3 @@
-
 /* Scripts del bundle, generado el 2026-08-09 16:48
    No edites este archivo: edita Cerveceria.html y regeneralo con
      python minificar.py Cerveceria.html -s cerveceria-minificado.html
@@ -2720,6 +2719,50 @@ window.PACO_PAGO_AVISO=window.PACO_PAGO_AVISO||{activo:true,
  pasar();
  document.addEventListener('DOMContentLoaded',pasar);
  window.addEventListener('load',pasar);
+ if(window.MutationObserver&&document.body){new MutationObserver(function(){pasar();}).observe(document.body,{childList:true,subtree:true});}
+ setInterval(pasar,700);})();
+})();
+
+;
+(function(){
+/* Terminos de uso -> PDF en pestana nueva (checkout_streamlined.asp).
+   ShoWare pinta el enlace dentro de .checkout-agree-container con
+   href="Javascript:popUp(...,'termsofuse.asp',...)", que abre una
+   ventanita. Aqui se le cambia el destino y se manda a pestana nueva.
+   Para que el "Aviso de privacidad" tambien vaya a un PDF, basta con
+   agregar otra entrada a `enlaces` con 'privacystatement.asp'. */
+window.PACO_TERMINOS=window.PACO_TERMINOS||{activo:true,
+ enlaces:[
+  {coincide:'termsofuse.asp',url:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/prueba.pdf'}
+ ]
+};
+})();
+;
+(function(){
+(function(){if(window.PACO_EN_FRAME)return;
+ if(window.location.href.toLowerCase().indexOf('checkout_streamlined')===-1)return;
+ var cfg=window.PACO_TERMINOS||{};if(cfg.activo===false)return;
+ var LISTA=(cfg.enlaces&&cfg.enlaces.length)?cfg.enlaces:[];if(!LISTA.length)return;
+ function destino(a){
+ var href=(a.getAttribute('href')||'').toLowerCase();
+ var txt=(a.textContent||'').toLowerCase();
+ for(var i=0;i<LISTA.length;i++){var e=LISTA[i];
+ if(!e||!e.url||!e.coincide)continue;
+ var c=String(e.coincide).toLowerCase();
+ if(href.indexOf(c)!==-1||txt.indexOf(c)!==-1)return e.url;}
+ return null;}
+ function pasar(){var nodos;
+ try{nodos=document.querySelectorAll('.checkout-agree-container a,#checkoutWrap a[href*="termsofuse"],#checkoutWrap a[href*="privacystatement"]');}catch(e){return;}
+ for(var i=0;i<nodos.length;i++){var a=nodos[i];
+ if(a.getAttribute('data-paco-terminos')==='1')continue;
+ var url=destino(a);if(!url)continue;
+ a.setAttribute('data-paco-terminos','1');
+ a.setAttribute('href',url);
+ a.setAttribute('target','_blank');
+ a.setAttribute('rel','noopener noreferrer');}}
+ pasar();
+ document.addEventListener('DOMContentLoaded',pasar);
+ window.addEventListener('load',function(){pasar();setTimeout(pasar,300);setTimeout(pasar,900);});
  if(window.MutationObserver&&document.body){new MutationObserver(function(){pasar();}).observe(document.body,{childList:true,subtree:true});}
  setInterval(pasar,700);})();
 })();
