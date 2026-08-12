@@ -2733,7 +2733,7 @@ window.PACO_PAGO_AVISO=window.PACO_PAGO_AVISO||{activo:true,
    agregar otra entrada a `enlaces` con 'privacystatement.asp'. */
 window.PACO_TERMINOS=window.PACO_TERMINOS||{activo:true,
  enlaces:[
-  {coincide:'termsofuse.asp',url:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/prueba.pdf'}
+  {coincide:'termsofuse.asp',url:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/tc-fp-2026.pdf'}
  ]
 };
 })();
