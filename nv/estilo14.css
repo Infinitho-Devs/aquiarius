@@ -2055,19 +2055,27 @@ html.paco-pg-mapa.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeadin
 
 /* ============================================================
    BASKET.ASP (CARRITO)  --  Visa en la tarjeta, código nativo
-   inhabilitado y pasos del popup ocultos
+   oculto por completo y pasos del popup ocultos
    ------------------------------------------------------------
    1) Logo de Visa superpuesto en la tarjeta (como el logo de red
       de una tarjeta real), además de los logos que ya salían en
       la cabecera del banner de descuento.
-   2) El campo de código nativo (input + botón) queda visible pero
-      inhabilitado -- no se elimina del DOM ni del JS.
+   2) El campo de código nativo (etiqueta + input + botón + mensaje
+      + pasos) queda oculto por completo -- no se elimina del DOM
+      ni del JS, solo no se pinta en pantalla.
    3) Los 3 pasos del popup de bienvenida quedan ocultos por CSS;
       el arreglo de pasos y el <ul> se siguen generando en el JS,
       solo no se pintan en pantalla.
    ============================================================ */
 
-/* -- 1. Logo de Visa sobre la tarjeta -- */
+/* -- 1. Logo de Visa sobre la tarjeta --
+   logo7.png es un logotipo BLANCO sobre fondo transparente (pensado
+   para ir sobre fondo oscuro, como en .paco-brsv-mark--visa de la
+   cabecera). El chip quedaba con fondo casi blanco
+   (rgba(255,255,255,.94)) y el logo blanco se volvía invisible
+   -- por eso "no se veía bien". Se cambia a un chip oscuro
+   traslúcido (mismo lenguaje que .paco-brsv-dots, el chip de puntos
+   de la izquierda) para que el logo blanco tenga contraste. */
 .paco-brsv-card-visa{
   position:absolute;
   right:14px;
@@ -2077,9 +2085,11 @@ html.paco-pg-mapa.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeadin
   align-items:center;
   justify-content:center;
   padding:4px 9px;
-  border-radius:6px;
-  background:rgba(255,255,255,.94);
-  box-shadow:0 4px 10px rgba(0,0,0,.35);
+  border-radius:7px;
+  background:rgba(0,0,0,.34)!important;
+  -webkit-backdrop-filter:blur(2px);
+  backdrop-filter:blur(2px);
+  box-shadow:0 4px 10px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,255,255,.18)!important;
   pointer-events:none;
 }
 .paco-brsv-card-visa img{
@@ -2090,7 +2100,16 @@ html.paco-pg-mapa.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeadin
   object-fit:contain;
 }
 
-/* -- 2. Campo de código nativo: visible pero inhabilitado -- */
+/* -- 2. Campo de código nativo: oculto entero, no eliminado --
+   Antes quedaba visible pero grisáceo/inhabilitado; ahora se pide
+   que directamente no se vea. Se oculta todo el contenedor
+   .paco-brsv-form (etiqueta, fila de input+botón, mensaje, códigos
+   aplicados y pasos), que sigue generándose igual en renderCustomCart()
+   -- mismo patrón que .paco-popup-steps más abajo: se apaga solo
+   por CSS, nada se borra del JS. Las reglas de abajo (opacidad/
+   grayscale del input y el botón) se dejan tal cual por si algún
+   día se vuelve a mostrar el formulario. */
+.paco-brsv-form{display:none!important}
 .paco-brsv-form--desactivado .paco-brsv-input,
 .paco-brsv-form--desactivado .paco-brsv-btn{
   opacity:.5!important;
