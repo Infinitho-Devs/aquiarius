@@ -1410,7 +1410,7 @@ html.paco-pg-mapa form#SeatmapQuickPickForm .quickpick-section{
   0%,100%{box-shadow:0 0 0 0 rgba(223,186,83,.4)}
   50%{box-shadow:0 0 0 8px rgba(223,186,83,0)}
 }
-html.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeading{
+html.paco-pg-mapa.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeading{
   display:flex!important;
   flex-wrap:wrap!important;
   align-items:center!important;
@@ -1774,6 +1774,102 @@ html.paco-pg-mapa form#SeatmapQuickPickForm .sw-error{
   html.paco-pg-mapa form#SeatmapQuickPickForm .button:hover,
   html.paco-pg-mapa form#SeatmapQuickPickForm input.button:hover{transform:none!important}
   html.paco-pg-mapa form#SeatmapQuickPickForm input#quickPickSubmit{animation:none!important;box-shadow:0 8px 20px rgba(30,190,93,.32)!important}
-  html.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeading{animation:none!important;color:#DFBA53!important}
+  html.paco-pg-mapa.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeading{animation:none!important;color:#DFBA53!important}
   html.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeading::before{animation:none!important;box-shadow:none!important}
+}
+
+/* ============================================================
+   BOLETAS EN 3 SECCIONES  --  reemplaza el carrusel de 5 tarjetas
+   ------------------------------------------------------------
+   Bajo el titulo "COMPRA TU BOLETA" ya no hay una tarjeta unica:
+   son 3 bloques independientes uno debajo del otro -- mapa a gran
+   formato, lista de contenido y CTA -- sin caja/borde que los una.
+   .fpx-ticket-group conserva pmf-planes__card SOLO para heredar,
+   sin CSS nuevo, el aviso de "sin disponibilidad" de leprechaun5.js
+   (busca .closest('.pmf-planes__card')) y el mismo boton que ya
+   usaban las 5 tarjetas (pmf-planes__btn + fpx-card__btn); su look
+   de tarjeta "neon" de base se anula por completo mas abajo.
+   ============================================================ */
+.fpx-ticket-group.pmf-planes-wrapper{
+  position:relative!important;
+  z-index:1!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  gap:40px!important;
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  padding:14px 0 0!important;
+  box-sizing:border-box!important;
+}
+.fpx-ticket-group.pmf-planes__card{
+  flex:none!important;
+  min-width:0!important;
+  border:none!important;
+  border-radius:0!important;
+  background:none!important;
+  box-shadow:none!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  overflow:visible!important;
+  transition:none!important;
+}
+.fpx-ticket-group.pmf-planes__card:hover{transform:none!important;box-shadow:none!important;border-color:transparent!important}
+.fpx-ticket-group.pmf-planes__card::before,
+.fpx-ticket-group.pmf-planes__card::after{content:none!important;display:none!important;animation:none!important}
+
+/* Seccion 1 -- mapa a gran formato (90% del ancho de pantalla).
+   La imagen ya viene horizontal: sin recorte ni aspect-ratio
+   forzado, solo se ajusta el ancho y la altura sigue proporcional. */
+.fpx-ticket-map{width:90%;max-width:1800px;margin:0 auto}
+.fpx-ticket-map__img{
+  display:block;
+  width:100%;
+  height:auto;
+  border-radius:16px;
+  border:1px solid var(--fpx-line2,rgba(255,255,255,.18));
+  box-shadow:0 20px 44px rgba(0,0,0,.45);
+}
+
+/* Seccion 2 -- descripcion en formato lista (contenido de ejemplo). */
+.fpx-ticket-list{width:100%;max-width:620px;padding:0 20px;box-sizing:border-box}
+.fpx-ticket-list__items{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+.fpx-ticket-list__items li{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  text-align:left;
+  color:var(--fpx-muted,#a8adc0);
+  font-size:14px;
+  line-height:1.55;
+}
+.fpx-ticket-list__items .fpx-check{
+  flex:0 0 auto;
+  width:18px;
+  height:18px;
+  margin-top:2px;
+  fill:none;
+  stroke:var(--fpx-green,#00E58C);
+  stroke-width:2.4;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+/* Seccion 3 -- CTA suelto. */
+.fpx-ticket-cta{width:100%;max-width:320px;padding:0 20px;box-sizing:border-box}
+.fpx-ticket-cta .pmf-planes__btn{position:static}
+
+@media (max-width:640px){
+  .fpx-ticket-group.pmf-planes-wrapper{gap:30px!important}
+  .fpx-ticket-map{width:92%}
+  .fpx-ticket-map__img{border-radius:12px}
+  .fpx-ticket-list__items li{font-size:13.5px}
 }
