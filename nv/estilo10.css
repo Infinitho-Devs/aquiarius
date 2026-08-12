@@ -249,7 +249,12 @@ html,body{overflow-x:hidden !important;background:var(--fpx-bg0)}
   .fpx-banner__img--movil{display:block}
 }
 
-/* ===== NAV / HEADER: rediseño con patrón (puntos dorados + trama diagonal) ===== */
+/* ===== NAV / HEADER: rediseño con patrón (puntos dorados + trama diagonal) =====
+   Solo aplica en movil/tablet (<=1280px). En PC (>=1281px) el header usa
+   header.jpg, definido mas arriba dentro de @media (min-width:1281px);
+   sin este @media aqui, esta regla (mas especifica) le ganaba siempre por
+   tener .paco-header ademas de #menu__paco. */
+@media (max-width:1280px){
 html body #menu__paco.paco-header,
 html body .paco-header#menu__paco{
   background-color:#00130b !important;
@@ -261,6 +266,7 @@ html body .paco-header#menu__paco{
   background-repeat:repeat, repeat, no-repeat, no-repeat !important;
   background-size:24px 24px, auto, auto, auto !important;
   background-position:center, center, center, center !important;
+}
 }
 
 /* ===== TARJETAS: quitar TODA linea que cruza el fondo =====
