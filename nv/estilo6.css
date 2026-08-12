@@ -1779,76 +1779,62 @@ html.paco-pg-mapa form#SeatmapQuickPickForm .sw-error{
 }
 
 /* ============================================================
-   PANEL UNICO DE BOLETAS  --  reemplaza el carrusel de 5 tarjetas
+   BOLETAS EN 3 SECCIONES  --  reemplaza el carrusel de 5 tarjetas
    ------------------------------------------------------------
-   Un solo panel bajo el titulo "COMPRA TU BOLETA": mapa del
-   recinto, descripcion y un unico CTA. Conserva las clases
-   pmf-planes__card / pmf-planes__btn+fpx-card__btn para heredar
-   sin cambios el aviso de "sin disponibilidad" de leprechaun5.js
-   y el estilo ya existente del boton (mismo look que usaban las
-   5 tarjetas), asi que no hace falta CSS nuevo para el boton.
+   Bajo el titulo "COMPRA TU BOLETA" ya no hay una tarjeta unica:
+   son 3 bloques independientes uno debajo del otro -- mapa a gran
+   formato, lista de contenido y CTA -- sin caja/borde que los una.
+   .fpx-ticket-group conserva pmf-planes__card SOLO para heredar,
+   sin CSS nuevo, el aviso de "sin disponibilidad" de leprechaun5.js
+   (busca .closest('.pmf-planes__card')) y el mismo boton que ya
+   usaban las 5 tarjetas (pmf-planes__btn + fpx-card__btn); su look
+   de tarjeta "neon" de base se anula por completo mas abajo.
    ============================================================ */
-.fpx-ticket-wrap.pmf-planes-wrapper{
-  position:relative;
-  z-index:1;
-  display:flex!important;
-  justify-content:center!important;
-  width:100%!important;
-  max-width:1320px!important;
-  margin:0 auto!important;
-  padding:14px 20px 0!important;
-  box-sizing:border-box!important;
-  gap:0!important;
-  flex-wrap:nowrap!important;
-}
-
-/* Reset del look "neon" de .pmf-planes__card de base: el panel
-   usa el mismo lenguaje visual que .fpx-card (vidrio + borde
-   sutil) pero sin las animaciones de escaneo/hover pensadas para
-   una rejilla de tarjetas angostas. */
-.fpx-ticket-panel.pmf-planes__card{
+.fpx-ticket-group.pmf-planes-wrapper{
   position:relative!important;
-  box-sizing:border-box!important;
+  z-index:1!important;
   display:flex!important;
   flex-direction:column!important;
   align-items:center!important;
-  gap:22px!important;
-  flex:none!important;
+  gap:40px!important;
   width:100%!important;
-  max-width:640px!important;
-  min-width:0!important;
+  max-width:none!important;
   margin:0!important;
-  padding:30px 30px 32px!important;
-  border-radius:var(--fpx-radius,20px)!important;
-  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02))!important;
-  border:1px solid var(--fpx-line,rgba(255,255,255,.10))!important;
-  box-shadow:0 20px 44px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.08)!important;
-  -webkit-backdrop-filter:blur(6px);
-  backdrop-filter:blur(6px);
-  overflow:hidden!important;
+  padding:14px 0 0!important;
+  box-sizing:border-box!important;
+}
+.fpx-ticket-group.pmf-planes__card{
+  flex:none!important;
+  min-width:0!important;
+  border:none!important;
+  border-radius:0!important;
+  background:none!important;
+  box-shadow:none!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  overflow:visible!important;
   transition:none!important;
 }
-.fpx-ticket-panel.pmf-planes__card:hover{
-  transform:none!important;
-  box-shadow:0 20px 44px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.08)!important;
-  border-color:var(--fpx-line,rgba(255,255,255,.10))!important;
-}
-.fpx-ticket-panel.pmf-planes__card::before,
-.fpx-ticket-panel.pmf-planes__card::after{content:none!important;display:none!important;animation:none!important}
+.fpx-ticket-group.pmf-planes__card:hover{transform:none!important;box-shadow:none!important;border-color:transparent!important}
+.fpx-ticket-group.pmf-planes__card::before,
+.fpx-ticket-group.pmf-planes__card::after{content:none!important;display:none!important;animation:none!important}
 
-/* Imagen del mapa: se fuerza a un marco horizontal (16:9) con
-   object-fit:cover. El mapa fuente es vertical, asi que se
-   recorta para caber -- intencional hasta que llegue la version
-   horizontal definitiva de la imagen. */
-.fpx-ticket-panel__map{
-  width:100%;
-  border-radius:14px;
+/* Seccion 1 -- mapa a gran formato (90% del ancho de pantalla) pero
+   bajo en altura: el alto se limita con clamp() (crece con el
+   viewport pero nunca pasa de 440px) y la imagen se recorta con
+   object-fit:cover -- se acepta el recorte para no restarle
+   protagonismo a la lista y al boton de abajo. */
+.fpx-ticket-map{
+  width:90%;
+  max-width:1800px;
+  height:clamp(200px,26vw,440px);
+  margin:0 auto;
+  border-radius:16px;
   overflow:hidden;
   border:1px solid var(--fpx-line2,rgba(255,255,255,.18));
-  background:#05060b;
-  aspect-ratio:16/9;
+  box-shadow:0 20px 44px rgba(0,0,0,.45);
 }
-.fpx-ticket-panel__map-img{
+.fpx-ticket-map__img{
   display:block;
   width:100%;
   height:100%;
@@ -1856,19 +1842,102 @@ html.paco-pg-mapa form#SeatmapQuickPickForm .sw-error{
   object-position:center;
 }
 
-.fpx-ticket-panel__desc{width:100%;text-align:center}
-.fpx-ticket-panel__desc p{
-  margin:0!important;
-  color:var(--fpx-muted,#a8adc0)!important;
-  font-size:13.5px!important;
-  line-height:1.65!important;
+/* Seccion 2 -- descripcion en formato lista (contenido de ejemplo),
+   con mas peso visual: kicker propio, texto e iconos mas grandes. */
+.fpx-ticket-list{width:100%;max-width:680px;padding:0 20px;box-sizing:border-box;text-align:center}
+.fpx-ticket-list__kicker{
+  display:block;
+  margin:0 0 22px;
+  color:var(--fpx-gold,#F6C560);
+  font-family:var(--fpx-display,'Bebas Neue',sans-serif);
+  font-size:clamp(22px,3vw,28px);
+  letter-spacing:3px;
+  text-transform:uppercase;
+  line-height:1;
+}
+.fpx-ticket-list__items{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+.fpx-ticket-list__items li{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  text-align:left;
+  color:#e8eaf2;
+  font-size:clamp(15px,1.6vw,18px);
+  line-height:1.6;
+}
+.fpx-ticket-list__ico{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:rgba(0,229,140,.12);
+  border:1px solid rgba(0,229,140,.4);
+}
+.fpx-ticket-list__ico .fpx-check{
+  width:17px;
+  height:17px;
+  fill:none;
+  stroke:var(--fpx-green,#00E58C);
+  stroke-width:2.6;
+  stroke-linecap:round;
+  stroke-linejoin:round;
 }
 
-.fpx-ticket-panel__cta{width:100%;max-width:320px}
-.fpx-ticket-panel__cta .pmf-planes__btn{position:static}
+/* Seccion 3 -- CTA suelto, con el mismo look "hero" (verde, brillo
+   en movimiento) que el boton principal del banner, para que sea
+   el elemento con mas fuerza visual de las 3 secciones. */
+.fpx-ticket-cta{width:100%;max-width:420px;padding:0 20px;box-sizing:border-box}
+.fpx-ticket-cta .pmf-planes__btn{
+  position:relative!important;
+  overflow:hidden!important;
+  isolation:isolate;
+  width:100%!important;
+  padding:19px 20px!important;
+  font-size:clamp(20px,2.4vw,25px)!important;
+  letter-spacing:2.5px!important;
+  border:none!important;
+  border-radius:14px!important;
+  background:linear-gradient(135deg,#00E58C 0%,#37F1A8 48%,#00C878 100%)!important;
+  color:#04160e!important;
+  box-shadow:0 16px 36px rgba(0,229,140,.4),inset 0 1px 0 rgba(255,255,255,.5)!important;
+  transition:transform .2s ease,box-shadow .2s ease,filter .2s ease!important;
+}
+.fpx-ticket-cta .pmf-planes__btn::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-60%;
+  width:36%;
+  height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.6),transparent);
+  transform:skewX(-20deg);
+  animation:fpx-sheen 3.4s ease-in-out infinite;
+  pointer-events:none;
+}
+.fpx-ticket-cta .pmf-planes__btn:hover{
+  transform:translateY(-3px)!important;
+  filter:brightness(1.05)!important;
+  box-shadow:0 22px 48px rgba(0,229,140,.55),inset 0 1px 0 rgba(255,255,255,.55)!important;
+}
 
 @media (max-width:640px){
-  .fpx-ticket-wrap.pmf-planes-wrapper{padding:10px 16px 0!important}
-  .fpx-ticket-panel.pmf-planes__card{padding:22px 18px 26px!important;gap:18px!important}
-  .fpx-ticket-panel__desc p{font-size:13px!important}
+  .fpx-ticket-group.pmf-planes-wrapper{gap:30px!important}
+  .fpx-ticket-map{width:92%;border-radius:12px}
+  .fpx-ticket-list__kicker{margin-bottom:16px}
+  .fpx-ticket-list__items{gap:16px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .fpx-ticket-cta .pmf-planes__btn::after{animation:none!important;opacity:0!important}
+  .fpx-ticket-cta .pmf-planes__btn:hover{transform:none!important}
 }
