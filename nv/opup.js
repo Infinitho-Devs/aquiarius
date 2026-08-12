@@ -190,6 +190,7 @@
     }
 
     function startAutoplay() {
+      return;                                       /* autoplay desactivado: solo mueve el usuario */
       if (autoplayTimer || !track || isHovering || reduceMotion) return;
       if (track.scrollWidth - track.clientWidth <= 0) return;   /* no rota si no hay overflow */
       autoplayTimer = setInterval(autoplayStep, AUTOPLAY_MS);
