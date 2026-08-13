@@ -2104,7 +2104,7 @@ html.paco-pg-mapa.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeadin
   flex-direction:column;
   align-items:center;
   width:100%;
-  max-width:680px;
+  max-width:600px;
   box-sizing:border-box;
   padding:34px 30px 32px;
   border-radius:20px;
@@ -2160,7 +2160,7 @@ html.paco-pg-mapa.paco-pg-mapa form#SeatmapQuickPickForm #SeatmapQuickPickHeadin
    queda con los tamanos de siempre. */
 @media (min-width:901px){
   .fpx-ticket-highlight{
-    max-width:1080px;
+    max-width:840px;
     padding:48px 56px 46px;
   }
   .fpx-ticket-list__kicker{font-size:clamp(31px,3.1vw,41px)}
