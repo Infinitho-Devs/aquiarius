@@ -2023,6 +2023,57 @@ function pacoFinPasada(){pacoMarcarResultado();pacoEngancharFactura();pacoEnsanc
  window.addEventListener('orientationchange',pacoPegarHeaderArriba);[300,800,1600,2600,4200].forEach(function(ms){setTimeout(pacoFinPasada,ms);});setInterval(function(){pacoEngancharFactura();pacoAjustarFactura();},1000);pacoFinPasada();})();
 })();
 ;
+/* OrderTicketsQuickPick.asp: reconstruye el aviso ("no es posible
+   hacer una Seleccion Rapida...") a partir de su TEXTO, no de su
+   posicion en el DOM. ShoWare a veces mete cada razon en su propio
+   <div>/<p> dentro de .error-message, y eso hacia que el CSS
+   ".error-message b:first-child" pescara el <b> de la primera razon
+   (el numero, ej. "4") en vez del titulo, dejandolo gigante y
+   centrado por error -- exactamente lo que se veia en produccion. */
+(function(){
+(function(){if(window.PACO_EN_FRAME)return;
+ if(document.documentElement.className.indexOf('paco-pg-qpaviso')===-1)return;
+function pacoEscQP(t){
+ return String(t==null?'':t)
+ .replace(/&/g,'&amp;')
+ .replace(/</g,'&lt;')
+ .replace(/>/g,'&gt;');}
+function pacoArmarAvisoQP(caja){
+ if(caja.querySelector('input,button,select,textarea,a'))return;
+ var texto=(caja.textContent||'').replace(/\s+/g,' ').trim();if(!texto)return;
+ var partes=texto.split(/:\s*/);
+ var titulo=partes.length>1?(partes[0]+':'):texto;
+ var resto=partes.length>1?partes.slice(1).join(':').trim():'';
+ var razones=resto?resto.split('.').map(function(s){return s.trim();}).filter(Boolean):[];
+ caja.innerHTML='';
+ var h=document.createElement('b');
+ h.className='paco-qp-titulo';
+ h.textContent=titulo;
+ caja.appendChild(h);
+ if(razones.length){
+ var lista=document.createElement('div');
+ lista.className='paco-qp-razones';
+ razones.forEach(function(frase){if(!frase)return;
+ if(!/[.!?]$/.test(frase))frase+='.';
+ var p=document.createElement('p');
+ p.className='paco-qp-razon';
+ p.innerHTML=pacoEscQP(frase).replace(/(\d+)/g,'<b>$1</b>');
+ lista.appendChild(p);});
+ caja.appendChild(lista);}
+}
+function pacoPasadaAvisoQP(){try{
+ var cajas=document.querySelectorAll('.paco-native-box .error-message');for(var i=0;i<cajas.length;i++){var caja=cajas[i];
+ if(caja.getAttribute('data-paco-qp'))continue;
+ var texto=(caja.textContent||'').trim();if(!texto)continue;
+ caja.setAttribute('data-paco-qp','1');
+ pacoArmarAvisoQP(caja);}
+}catch(e){}
+}
+pacoPasadaAvisoQP();
+ document.addEventListener('DOMContentLoaded',pacoPasadaAvisoQP);
+ window.addEventListener('load',pacoPasadaAvisoQP);[300,800,1600,2600].forEach(function(ms){setTimeout(pacoPasadaAvisoQP,ms);});setInterval(pacoPasadaAvisoQP,1000);})();
+})();
+;
 (function(){
 (function(){if(window.PACO_EN_FRAME)return;var u=window.location.href.toLowerCase();
  if(u.indexOf('checkout_streamlined')!==-1){
