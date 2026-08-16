@@ -224,7 +224,7 @@ window.PACO_POPUP={mostrarPopup:true,
  porcentaje:'10%',
  etiqueta:'PREVENTA EXCLUSIVA VISA',
  preventaTexto:'PREVENTA EXCLUSIVA <span class="paco-brsv-presale-accent">VISA</span>',
- preventaSubtexto:'Aplica para tarjeta visa de todos los bancos.',
+ preventaSubtexto:'Aplica para tarjetas visa de todos los bancos.',
  campoTitulo:'Ingresa los primeros 6 dígitos de tu tarjeta participante',
  campoPlaceholder:'Código o primeros 6 dígitos de tu tarjeta',
  campoBoton:'Habilitar descuento',longitudMax:0,pasos:[
