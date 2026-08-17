@@ -42,7 +42,7 @@ return u;};
 ;
 (function(){
 (function(){if(window.PACO_EN_FRAME)return;
- var faviconUrl="https://misty-smoke-21f1.wocsoft.workers.dev/imagenes/favicon.png";function enforceFavicon(){
+ var faviconUrl="https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/favicon.png";function enforceFavicon(){
  var existingIcons=document.querySelectorAll("link[rel*='icon'], link[rel='shortcut icon']");var hasOurIcon=false;existingIcons.forEach(function(icon){
  if(icon.href&&icon.href.indexOf('/imagenes/favicon.png')!==-1){hasOurIcon=true;}else if(icon.parentNode){icon.parentNode.removeChild(icon);}
 });if(!hasOurIcon){
@@ -214,7 +214,7 @@ window.PACO_POPUP={mostrarPopup:true,
 };window.PACO_DESCUENTO={
  textoDetector:'visa',
  textoTarjeta:'Descuento Visa',
- logo:'https://misty-smoke-21f1.wocsoft.workers.dev/PATROCINADORES/logo7.png',
+ logo:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/PATROCINADORES/logo7.png',
  logoVisa:'',
  logoVisaClaro:'',
  tarjeta:''
@@ -829,7 +829,7 @@ if(!detectar()){
     html.paco-pg-bloqueo.paco-pg-bloqueo,
     html.paco-pg-bloqueo.paco-pg-bloqueo body {
         background-color: #001a10 !important;
-        background-image: url('https://misty-smoke-21f1.wocsoft.workers.dev/imagenes/malla-original-2171x4096.png') !important;
+        background-image: url('https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/malla-original-2171x4096.png') !important;
         background-repeat: repeat !important;
         background-position: center top !important;
         margin: 0 !important;
@@ -1393,7 +1393,7 @@ if(!detectar()){
     html.paco-pg-ticketinfo.paco-pg-ticketinfo,
     html.paco-pg-ticketinfo.paco-pg-ticketinfo body {
         background-color: #001a10 !important;
-        background-image: url('https://misty-smoke-21f1.wocsoft.workers.dev/imagenes/malla-original-2171x4096.png') !important;
+        background-image: url('https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/malla-original-2171x4096.png') !important;
         background-repeat: repeat !important;
         background-position: center top !important;
         margin: 0 !important;
@@ -2122,9 +2122,9 @@ pacoPasadaAvisoQP();
 ;
 (function(){
 window.PACO_CHECKOUT_LOGOS=[
-{nombre:'Visa',marca:'visa',src:'https://misty-smoke-21f1.wocsoft.workers.dev/imagenes/visa.jpg'},
-{nombre:'Mastercard',marca:'mastercard',activo:false,src:'https://misty-smoke-21f1.wocsoft.workers.dev/imagenes/mastercard.jpg'},
-{nombre:'American Express',marca:'amex',activo:false,src:'https://misty-smoke-21f1.wocsoft.workers.dev/imagenes/amex.jpg'}
+{nombre:'Visa',marca:'visa',src:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/visa.jpg'},
+{nombre:'Mastercard',marca:'mastercard',activo:false,src:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/mastercard.jpg'},
+{nombre:'American Express',marca:'amex',activo:false,src:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/amex.jpg'}
 ];
 })();
 ;
@@ -2927,8 +2927,8 @@ window.PACO_PAGO_AVISO=window.PACO_PAGO_AVISO||{activo:true,
    se reusa exactamente esa misma funcion, igual que hace el footer. */
 window.PACO_TERMINOS_POPUP=window.PACO_TERMINOS_POPUP||{activo:true,
  enlaces:[
-  {coincide:'termsofuse.asp',url:'https://misty-smoke-21f1.wocsoft.workers.dev/tc-2026-3'},
-  {coincide:'privacystatement.asp',url:'https://misty-smoke-21f1.wocsoft.workers.dev/politicas-2026'}
+  {coincide:'termsofuse.asp',url:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/tc-2026-3'},
+  {coincide:'privacystatement.asp',url:'https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/politicas-2026'}
  ]
 };
 })();
