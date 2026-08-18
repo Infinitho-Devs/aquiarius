@@ -42,17 +42,32 @@ return u;};
 ;
 (function(){
 (function(){if(window.PACO_EN_FRAME)return;
- var faviconUrl="https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/favicon.png";function enforceFavicon(){
- var existingIcons=document.querySelectorAll("link[rel*='icon'], link[rel='shortcut icon']");var hasOurIcon=false;existingIcons.forEach(function(icon){
- if(icon.href&&icon.href.indexOf('/imagenes/favicon.png')!==-1){hasOurIcon=true;}else if(icon.parentNode){icon.parentNode.removeChild(icon);}
-});if(!hasOurIcon){
+ var faviconUrl="https://cdn.jsdelivr.net/gh/Infinitho-Devs/aquiarius@main/imagenes/favicon.png";
+ var faviconFb="https://tuboleta.wocsoft.workers.dev/imagenes/favicon.png";
+ /* El index.html se inyecta DENTRO del <body> de ShoWare y Chrome solo lee los
+    <link rel=icon> que son hijos directos de <head>; por eso el icono hay que
+    inyectarlo aqui. El guard exige "es nuestro Y esta en el head": si mirara
+    solo la URL, el <link> del body ya lo daria por puesto y el head quedaria
+    sin icono (favicon invisible). Comparar por ruta y no por CDN evita que el
+    intervalo lo borre y lo recree 2 veces por segundo. */
+ function enforceFavicon(){
+ var existingIcons=document.querySelectorAll("link[rel*='icon'], link[rel='shortcut icon']");var enHead=false;existingIcons.forEach(function(icon){
+ if(icon.href&&icon.href.indexOf('/imagenes/favicon.png')!==-1){if(icon.parentNode===document.head)enHead=true;}else if(icon.parentNode){icon.parentNode.removeChild(icon);}
+});if(!enHead){
 ['icon','shortcut icon','apple-touch-icon'].forEach(function(relType){
  var link=document.createElement('link');
  link.type='image/png';link.rel=relType;
  link.sizes='192x192';link.href=faviconUrl;if(document.head){document.head.appendChild(link);}
 });}
 }
-enforceFavicon();setInterval(enforceFavicon,500);function enforceColorScheme(){if(!document.head)return;
+ /* Failover de CDN: el onerror del <link rel=icon> NO dispara (el navegador ni
+    descarga los iconos del body), asi que se prueba la imagen del primario y,
+    si falla, se reapuntan los <link> al Worker de Cloudflare. Una sola vez. */
+ function fbFavicon(){var probe=new Image();
+ probe.onerror=function(){faviconUrl=faviconFb;
+ document.querySelectorAll("link[rel*='icon'], link[rel='shortcut icon']").forEach(function(icon){icon.href=faviconFb;});};
+ probe.src=faviconUrl;}
+enforceFavicon();fbFavicon();setInterval(enforceFavicon,500);function enforceColorScheme(){if(!document.head)return;
  var meta=document.querySelector('meta[name="color-scheme"]');if(!meta){
  meta=document.createElement('meta');
  meta.name='color-scheme';document.head.appendChild(meta);}
