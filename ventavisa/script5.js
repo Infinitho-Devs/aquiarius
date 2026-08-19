@@ -107,6 +107,13 @@ enforceColorScheme();setInterval(enforceColorScheme,1000);})();
  document.documentElement.classList.add('paco-pg-patronedit');}
  if(urlCheck.includes('referenciacompra.asp')){
  document.documentElement.classList.add('paco-pg-referencia');}
+ /* orderdetail.asp ("Mis Boletos" / detalle de una orden ya emitida).
+    Sigue siendo "paco-standard-page" -> ShoWare queda envuelto en
+    .paco-native-box, y el CSS de estilo2.css convierte esa caja blanca
+    en la tarjeta oscura de marca (encabezado de bienvenida, datos de la
+    orden, listado de boletos y totales). */
+ if(urlCheck.includes('orderdetail.asp')){
+ document.documentElement.classList.add('paco-pg-orden');}
  /* Aviso / validacion de checkout.asp (ej. "cantidad maxima de boletos").
     Sigue siendo "paco-standard-page" -> ShoWare queda envuelto en
     .paco-native-box, y el CSS de estilo2.css convierte esa caja blanca
